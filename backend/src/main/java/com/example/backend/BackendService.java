@@ -20,18 +20,13 @@ public class BackendService {
 
     public UserData findUserByData(UserData userData){
         List<UserData> allUserCredentials = repo.findAll();
-        UserData foundUser = null;
+
         for ( UserData u: allUserCredentials) {
             if (userData.getEmail().equals(u.getEmail()) && userData.getUsername().equals(u.getUsername()) && userData.getPassword().equals(u.getPassword())){
-                foundUser.setId(u.getId());
-                foundUser.setUsername(u.getUsername());
-                foundUser.setPassword(null);
-                foundUser.setEmail(u.getEmail());
-                foundUser.setRole(u.getRole());
-                foundUser.setBiography(u.getBiography());
-                foundUser.setPlacedPixels(u.getPlacedPixels());
+                return new UserData(u.getId(), u.getUsername(), null, u.getEmail(), u.getRole(), u.getBiography(), u.getPlacedPixels());
             }
+            else return null;
         }
-        return foundUser;
+        return null;
     }
 }

@@ -5,19 +5,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 
 @Entity
 @Data
+@AllArgsConstructor
 public class UserData {
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String username;
-    private String password;
-    private String email;
-    private String role;
-    private String biography;
-    private int placedPixels;
+    long id;
+    String username;
+    String password;
+    String email;
+    String role;
+    String biography;
+    int placedPixels;
+
+    public UserData() {
+    }
 }

@@ -1,17 +1,13 @@
-import Logo from "./assets/coop place logo.png"
-import {useState} from "react";
-import {UserDataType} from "./App.tsx";
+import Logo from "./assets/coop place logo.png";
 import axios from "axios";
+import {UserDataType} from "./App.tsx";
 
+type LoginPageProps = {
+    userData: UserDataType
+    setUserData: React.Dispatch<React.SetStateAction<UserDataType>>
+}
 
-
-export default function LoginPage(){
-
-    const [userData, setUserData] = useState<UserDataType>({
-        "username": "",
-        "password": "",
-        "email": ""
-    })
+export default function LoginPage({setUserData, userData}: LoginPageProps){
 
     const saveUserDataOnChange = (name: string, value: string) => {
         const newUserData = {
@@ -22,24 +18,20 @@ export default function LoginPage(){
     }
 
     return <>
-    <img src={Logo} className={"logo"}/>
-        <div id={"login-tag"}>Register</div>
-        <form onSubmit={(e) => {axios.post("/place/home",
+        <img src={Logo} className={"logo"}/>
+        <div className={"login-tag"}>Login</div>
+
+        <form onSubmit={(e) => {axios.post("/place/login",
             userData);
             e.preventDefault();
         }}>
-            <input placeholder={"e-mail"} type={"email"} name={"email"} className={"email-input"} onChange={(e) => {
+            <input id={"login-username-input"} placeholder={"username"} name={"username"} className={"username-input"} onChange={(e) => {
                 saveUserDataOnChange(e.target.name, e.target.value)
             }}/>
-            <input placeholder={"username"} name={"username"} className={"username-input"} onChange={(e) => {
-                saveUserDataOnChange(e.target.name, e.target.value)
-            }}/>
-            <input placeholder={"password"} type={"password"} name={"password"} className={"password-input"} onChange={(e) => {
-                saveUserDataOnChange(e.target.name, e.target.value)
-            }}/>
-            <button type={"submit"}>Login</button>
+            <input id={"login-password-input"} placeholder={"password"} type={"password"} name={"password"} className={"password-input"} onChange={(e) => {
+            saveUserDataOnChange(e.target.name, e.target.value)
+        }}/>
+            <button id={"login-button"} type={"submit"}>Login</button>
         </form>
-
     </>
-
 }
