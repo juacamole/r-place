@@ -1,4 +1,10 @@
 
+
+#test-display {
+  position: fixed;
+  top: 5vh;
+}
+
 .background {
   position: fixed;
   background-color: #ffffff;
@@ -139,9 +145,6 @@
     color: #000000;
   }
 
-  #copy-button {
-    z-index: 2;
-  }
 
   #color-picker-parent {
     position: fixed;
@@ -153,9 +156,36 @@
   }
 
   #color-picker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
     width: 3vw;
     height: 3vw;
+  }
+
+  #color-picker::-webkit-color-swatch{
     border-radius: 50%;
+  }
+
+  #canvas {
+    background-color: white;
+    top: 33vh;
+    left: 35vw;
+    position: fixed;
+    z-index: 3;
+    width: 30vw;
+    height: 30vw;
+    border: 0.1vw solid black;
+  }
+
+  #console {
+    z-index: 2;
+    position: fixed;
+    bottom: 3vh;
+    height: 2.3vh;
+    right: 1vw;
   }
 
 }

@@ -6,6 +6,8 @@ import RegisterPage2 from "./RegisterPage2.tsx";
 import LoginPage from "./LoginPage.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from "./HomePage.tsx";
+import CanvasTestComponent from "./CanvasTestComponent.tsx";
+import FractionParser from "./FractionParser.tsx";
 
 
 
@@ -33,6 +35,8 @@ function App() {
 
   return (
     <><Routes>
+        <Route path={"/fractest"} element={<FractionParser/>}/>
+        <Route path={"/ctest"} element={<CanvasTestComponent/>}/>
         <Route path={"/home"} element={<HomePage navigate={navigate} setUserData={setUserData} userData={userData}/>}/>
         <Route path={"/"} element={<LoginPage setUserData={setUserData} userData={userData}/>}/>
         <Route path={"/register"} element={<RegisterPage userData={userData} setUserData={setUserData} navigate={navigate}/>}/>

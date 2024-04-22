@@ -3,6 +3,8 @@ package com.example.backend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/place")
@@ -15,11 +17,18 @@ public class BackendController {
         return service.createUser(newUserData);
     }
 
-    @PostMapping("/home")
-    public UserData getCurrentUserCredentials(@RequestBody UserData userData){
-        return service.findUserByData(userData);
+
+    @PostMapping("/canvas/save")
+    public void saveCanvas(@RequestBody String canvasData) {
+        CanvasData canvasEntity = new CanvasData(canvasData);
+        service.saveCanvas(canvasEntity);
     }
 
+    @GetMapping("/canvas")
+    public CanvasData getCanvas(){
+        CanvasData canvas = service.getCanvas();
+        return canvas;
+    }
 
 
 }

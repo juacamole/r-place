@@ -1,22 +1,19 @@
 package com.example.backend;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 
 @Entity
 @Data
 @AllArgsConstructor
+@Table(name = "user")
 public class UserData {
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    int id;
     String username;
     String password;
     String email;
