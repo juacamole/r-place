@@ -12,7 +12,6 @@ import static jakarta.persistence.GenerationType.*;
 public class CanvasData {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
     private int id;
 
     @Column(columnDefinition = "TEXT") // Define column as TEXT to store large data

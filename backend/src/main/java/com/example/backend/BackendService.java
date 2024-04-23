@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class BackendService {
@@ -19,12 +17,14 @@ public class BackendService {
         return urepo.save(newUserData);
     }
 
-    public void saveCanvas(CanvasData canvasEntity){
+    public void updateCanvas(CanvasData canvasEntity){
+        canvasEntity.setId(1);
+        crepo.deleteById(1);
         crepo.save(canvasEntity);
     }
 
     public CanvasData getCanvas(){
-        return crepo.findNewestCanvas();
+        return crepo.findCanvas();
     }
 
 }

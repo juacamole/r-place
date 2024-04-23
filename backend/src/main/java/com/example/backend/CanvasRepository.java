@@ -5,8 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CanvasRepository extends JpaRepository<CanvasData, Integer> {
 
-    @Query("SELECT p FROM CanvasData p WHERE p.id = (SELECT MAX(p2.id) FROM CanvasData p2)")
-    CanvasData findNewestCanvas();
-
+    @Query("SELECT p FROM CanvasData  p WHERE p.id = 1")
+    CanvasData findCanvas();
 
 }

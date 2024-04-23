@@ -15,7 +15,7 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const [scale] = useState<number>(10); //4 for 25/25
+    const [scale] = useState<number>(10);
     const [position] = useState({ x: 0, y: 0 });
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
 
@@ -35,6 +35,12 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
         ctx.fillRect(0, 0, 1, 1);
         ctx.resetTransform();
     }, [currentColor, consoleValue, scale]);
+    const drawRequestPerClick = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number, color: string) => {
+        const pixelSize = 10;
+        ctx.fillStyle = color;
+        ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
+    };
+
 
 
 
@@ -47,7 +53,7 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                 draw(ctx);
             }
         }
-    }, );
+    }, []);
 
 
 
@@ -65,8 +71,8 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                             const canvas = canvasRef.current;
                             if (canvas) {
                                 const ctx = canvas.getContext("2d");
-                                if (ctx) { // Check if context is not null
-                                    canvas.width = image.width; // Adjust canvas size to image size
+                                if (ctx) {
+                                    canvas.width = image.width;
                                     canvas.height = image.height;
                                     ctx.drawImage(image, 0, 0);
                                 } else {
@@ -88,6 +94,40 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
             .catch(error => {
                 console.error("Error fetching or processing canvas data: ", error);
             });
+    };
+
+    const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        const x = (event.clientX - rect.left) * scaleX;
+        const y = (event.clientY - rect.top) * scaleY;
+
+        const pixelX = Math.floor(x / scale);
+        const pixelY = Math.floor(y / scale);
+
+        setCurrentColor(currentColor);
+        setConsoleValue([pixelX, pixelY]);
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        drawRequestPerClick(ctx, pixelX, pixelY, currentColor);
+        if (canvas) {
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+                drawRequest(ctx);
+                const dataUrl = canvas.toDataURL();
+                axios.put("/place/canvas/save", { image: dataUrl }).then(() => {
+                    importCanvas();
+                    return;
+                }).catch(console.error);
+            }
+        }
     };
 
 
@@ -130,7 +170,7 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                         if (ctx) {
                             drawRequest(ctx);
                             const dataUrl = canvas.toDataURL();
-                            axios.post("/place/canvas/save", { image: dataUrl }).catch(console.error);
+                            axios.put("/place/canvas/save", { image: dataUrl }).catch(console.error);
                         }
                     }
                 }}
@@ -138,7 +178,7 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                 <input
                     id="console"
                     onChange={(e) => {
-                        importCanvas();  // Ensure this is the intended behavior to reload the canvas on each input change
+                        importCanvas();
                         const parts = e.target.value.replace(/[()]/g, "").split("/");
                         const parsedValues = parts.map(part => parseInt(part, 10));
                         if (parsedValues.length === 2 && !isNaN(parsedValues[0]) && !isNaN(parsedValues[1])) {
@@ -148,7 +188,14 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                 />
                 <button type="submit">Save Canvas</button>
             </form>
-            <canvas ref={canvasRef} width="400" height="400" id={"canvas"} />
+            <canvas
+                ref={canvasRef}
+                width="400"
+                height="400"
+                id={"canvas"}
+                onClick={handleCanvasClick}
+            />
+
 
             <div id={"home-circle-design-parent"}>
                 <CircleDesign/>

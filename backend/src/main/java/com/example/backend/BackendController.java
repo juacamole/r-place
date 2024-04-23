@@ -3,8 +3,6 @@ package com.example.backend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/place")
@@ -18,10 +16,10 @@ public class BackendController {
     }
 
 
-    @PostMapping("/canvas/save")
-    public void saveCanvas(@RequestBody String canvasData) {
+    @PutMapping("/canvas/save")
+    public void updateCanvas(@RequestBody String canvasData) {
         CanvasData canvasEntity = new CanvasData(canvasData);
-        service.saveCanvas(canvasEntity);
+        service.updateCanvas(canvasEntity);
     }
 
     @GetMapping("/canvas")
