@@ -1,7 +1,7 @@
 import CircleDesign from "./CircleDesign.tsx";
-import { UserDataType } from "./App.tsx";
-import { NavigateFunction } from "react-router-dom";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import {UserDataType} from "./App.tsx";
+import {NavigateFunction} from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
 import Logo from "./assets/coop place logo.png";
 import axios from "axios";
 
@@ -11,37 +11,32 @@ type HomePageProps = {
     navigate: NavigateFunction;
 };
 
-export default function HomePage({ userData, navigate }: HomePageProps) {
+export default function HomePage({userData, navigate}: HomePageProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [scale] = useState<number>(10);
-    const [position] = useState({ x: 0, y: 0 });
+    const [position] = useState({x: 0, y: 0});
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
+    const [consoleTextValue, setConsoleTextValue] = useState<string>("")
 
-    const draw = useCallback((ctx: CanvasRenderingContext2D) => {
+    const draw = (ctx: CanvasRenderingContext2D) => {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.setTransform(scale, 0, 0, scale, 0, 0);
         ctx.fillStyle = "white";
         ctx.fillRect(position.x, position.y, 100, 100);
-    }, [scale, position]);
+    }
 
-    const drawRequest = useCallback((ctx: CanvasRenderingContext2D) => {
-        const pixelSize = 10;
-        ctx.resetTransform();
+    /*const drawRequest = (ctx: CanvasRenderingContext2D) => {
+        ctx.scale(scale, scale)
         ctx.fillStyle = currentColor;
-        ctx.translate(consoleValue[0] * pixelSize, consoleValue[1] * pixelSize);
-        ctx.scale(scale, scale);
-        ctx.fillRect(0, 0, 1, 1);
+        ctx.fillRect(consoleValue[0], consoleValue[1], 1, 1);
         ctx.resetTransform();
-    }, [currentColor, consoleValue, scale]);
-    const drawRequestPerClick = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number, color: string) => {
+    }*/
+    const drawRequestPerClick = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
         const pixelSize = 10;
-        ctx.fillStyle = color;
+        ctx.fillStyle = currentColor;
         ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
     };
-
-
 
 
     useEffect(() => {
@@ -55,10 +50,13 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
         }
     }, []);
 
+    useEffect(() => {
+        console.log("render")
+    });
 
 
     const importCanvas = async () => {
-        axios.get("/place/canvas", { responseType: 'json' })
+        axios.get("/place/canvas", {responseType: 'json'})
             .then(res => {
                 try {
                     const canvasData = JSON.parse(res.data.canvasData);
@@ -110,19 +108,17 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
         const pixelX = Math.floor(x / scale);
         const pixelY = Math.floor(y / scale);
 
-        setCurrentColor(currentColor);
         setConsoleValue([pixelX, pixelY]);
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        drawRequestPerClick(ctx, pixelX, pixelY, currentColor);
+        drawRequestPerClick(ctx, pixelX, pixelY);
         if (canvas) {
             const ctx = canvas.getContext("2d");
             if (ctx) {
-                drawRequest(ctx);
                 const dataUrl = canvas.toDataURL();
-                axios.put("/place/canvas/save", { image: dataUrl }).then(() => {
+                axios.put("/place/canvas/save", {image: dataUrl}).then(() => {
                     importCanvas();
                     return;
                 }).catch(console.error);
@@ -131,14 +127,10 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
     };
 
 
-
-
-
-
     return (
         <>
-            <img src={Logo} className={"logo"} alt={undefined} />
-            <div id={"home-background"} />
+            <img src={Logo} className={"logo"} alt={undefined}/>
+            <div id={"home-background"}/>
 
             <div id={"user-profile"}>
                 <div>
@@ -157,7 +149,7 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                     onChange={(e) => setCurrentColor(e.target.value)}
                 />
 
-                <textarea ref={textAreaRef} id={"hex-display"} value={currentColor} />
+
             </div>
             <div id={"test-display"}>{consoleValue}</div>
 
@@ -168,9 +160,9 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                     if (canvas) {
                         const ctx = canvas.getContext("2d");
                         if (ctx) {
-                            drawRequest(ctx);
+                            drawRequestPerClick(ctx, consoleValue[0], consoleValue[1]);
                             const dataUrl = canvas.toDataURL();
-                            axios.put("/place/canvas/save", { image: dataUrl }).catch(console.error);
+                            axios.put("/place/canvas/save", {image: dataUrl}).catch(console.error);
                         }
                     }
                 }}
@@ -179,12 +171,14 @@ export default function HomePage({ userData, navigate }: HomePageProps) {
                     id="console"
                     onChange={(e) => {
                         importCanvas();
-                        const parts = e.target.value.replace(/[()]/g, "").split("/");
+                        setConsoleTextValue(e.target.value)
+                        const parts = consoleTextValue.replace(/[()]/g, "").split("/");
                         const parsedValues = parts.map(part => parseInt(part, 10));
                         if (parsedValues.length === 2 && !isNaN(parsedValues[0]) && !isNaN(parsedValues[1])) {
                             setConsoleValue(parsedValues);
                         }
                     }}
+                    value={consoleTextValue}
                 />
                 <button type="submit">Save Canvas</button>
             </form>
