@@ -1,9 +1,6 @@
 package com.example.backend;
 
 import lombok.RequiredArgsConstructor;
-
-
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,17 +10,20 @@ public class BackendService {
     private final UserRepository urepo;
     private final CanvasRepository crepo;
 
-    public UserData createUser(UserData newUserData){
+    public UserData createUser(UserData newUserData) {
         return urepo.save(newUserData);
     }
 
-    public void updateCanvas(CanvasData canvasEntity){
+    public CanvasData updateCanvas(CanvasData canvasEntity) {
         canvasEntity.setId(1);
         crepo.deleteById(1);
-        crepo.save(canvasEntity);
+
+        System.out.println(crepo.findCanvas());
+
+        return crepo.save(canvasEntity);
     }
 
-    public CanvasData getCanvas(){
+    public CanvasData getCanvas() {
         return crepo.findCanvas();
     }
 

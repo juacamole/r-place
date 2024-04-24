@@ -4,6 +4,7 @@ import {NavigateFunction} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import Logo from "./assets/coop place logo.png";
 import axios from "axios";
+import WSService from "./WSService.tsx";
 
 type HomePageProps = {
     userData: UserDataType;
@@ -12,6 +13,8 @@ type HomePageProps = {
 };
 
 export default function HomePage({userData, navigate}: HomePageProps) {
+
+    const ws = WSService();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
     const [scale] = useState<number>(10);
@@ -26,16 +29,11 @@ export default function HomePage({userData, navigate}: HomePageProps) {
         ctx.fillRect(position.x, position.y, 100, 100);
     }
 
-    /*const drawRequest = (ctx: CanvasRenderingContext2D) => {
-        ctx.scale(scale, scale)
-        ctx.fillStyle = currentColor;
-        ctx.fillRect(consoleValue[0], consoleValue[1], 1, 1);
-        ctx.resetTransform();
-    }*/
-    const drawRequestPerClick = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
+    const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
         const pixelSize = 10;
         ctx.fillStyle = currentColor;
         ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
+        canvasRef.current != null && ws.updateCanvas((canvasRef.current).toDataURL())
     };
 
 
@@ -52,18 +50,17 @@ export default function HomePage({userData, navigate}: HomePageProps) {
 
     useEffect(() => {
         console.log("render")
-    });
+    }, []);
 
 
     const importCanvas = async () => {
         axios.get("/place/canvas", {responseType: 'json'})
-            .then(res => {
+            .then((res) => {
                 try {
-                    const canvasData = JSON.parse(res.data.canvasData);
-                    if (canvasData && canvasData.image) {
-                        const imageSrc = canvasData.image;
+                    const canvasData = res.data.canvasData;/*"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMCRUiMrIBQVkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoC4AAABQAAEiE+h1AAAAAElFTkSuQmCC";*/
+                    if (canvasData) {
                         const image = new Image();
-                        image.src = imageSrc;
+                        image.src = canvasData;
 
                         image.onload = () => {
                             const canvas = canvasRef.current;
@@ -113,18 +110,22 @@ export default function HomePage({userData, navigate}: HomePageProps) {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        drawRequestPerClick(ctx, pixelX, pixelY);
-        if (canvas) {
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-                const dataUrl = canvas.toDataURL();
-                axios.put("/place/canvas/save", {image: dataUrl}).then(() => {
-                    importCanvas();
-                    return;
-                }).catch(console.error);
-            }
-        }
+        drawRequest(ctx, pixelX, pixelY);
     };
+    ws.onMessage((message: MessageEvent) => {
+        const image = new Image();
+        image.src = message.data;
+
+        image.onload = () => {
+            const canvas = canvasRef.current;
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d')
+            if (!ctx) return;
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.drawImage(image, 0, 0);
+        }
+    })
 
 
     return (
@@ -160,7 +161,7 @@ export default function HomePage({userData, navigate}: HomePageProps) {
                     if (canvas) {
                         const ctx = canvas.getContext("2d");
                         if (ctx) {
-                            drawRequestPerClick(ctx, consoleValue[0], consoleValue[1]);
+                            drawRequest(ctx, consoleValue[0], consoleValue[1]);
                             const dataUrl = canvas.toDataURL();
                             axios.put("/place/canvas/save", {image: dataUrl}).catch(console.error);
                         }
@@ -170,9 +171,9 @@ export default function HomePage({userData, navigate}: HomePageProps) {
                 <input
                     id="console"
                     onChange={(e) => {
-                        importCanvas();
+                        /*importCanvas();*/
                         setConsoleTextValue(e.target.value)
-                        const parts = consoleTextValue.replace(/[()]/g, "").split("/");
+                        const parts = e.target.value.replace(/[()]/g, "").split("/");
                         const parsedValues = parts.map(part => parseInt(part, 10));
                         if (parsedValues.length === 2 && !isNaN(parsedValues[0]) && !isNaN(parsedValues[1])) {
                             setConsoleValue(parsedValues);
