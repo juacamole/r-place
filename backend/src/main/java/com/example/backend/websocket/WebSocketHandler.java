@@ -52,6 +52,8 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
         TextMessage textMessage = new TextMessage(canvas.getCanvasData());
         for (WebSocketSession session : sessions) {
             try {
+                System.out.println(sessions.toArray().length);
+                System.out.println(session);
                 session.sendMessage(textMessage);
             } catch (IOException e) {
                 System.out.println(e.getMessage());

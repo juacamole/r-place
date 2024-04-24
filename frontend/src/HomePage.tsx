@@ -4,7 +4,7 @@ import {NavigateFunction} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import Logo from "./assets/coop place logo.png";
 import axios from "axios";
-import WSService from "./WSService.tsx";
+import {WSService, WSServiceType} from "./WSService.tsx";
 
 type HomePageProps = {
     userData: UserDataType;
@@ -14,42 +14,39 @@ type HomePageProps = {
 
 export default function HomePage({userData, navigate}: HomePageProps) {
 
-    const ws = WSService();
+    const [ws, setWs] = useState<WSServiceType>();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
     const [scale] = useState<number>(10);
-    const [position] = useState({x: 0, y: 0});
+    /* const [position] = useState({x: 0, y: 0});*/
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
     const [consoleTextValue, setConsoleTextValue] = useState<string>("")
 
-    const draw = (ctx: CanvasRenderingContext2D) => {
+    /*const draw = (ctx: CanvasRenderingContext2D) => {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.setTransform(scale, 0, 0, scale, 0, 0);
         ctx.fillStyle = "white";
         ctx.fillRect(position.x, position.y, 100, 100);
-    }
+    }*/
 
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
         const pixelSize = 10;
         ctx.fillStyle = currentColor;
         ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
-        canvasRef.current != null && ws.updateCanvas((canvasRef.current).toDataURL())
+        canvasRef.current != null && ws && ws.updateCanvas((canvasRef.current).toDataURL())
     };
 
 
     useEffect(() => {
+        setWs(WSService());
         importCanvas();
-        const canvas = canvasRef.current;
+        /*const canvas = canvasRef.current;
         if (canvas) {
             const ctx = canvas.getContext("2d");
             if (ctx) {
                 draw(ctx);
             }
-        }
-    }, []);
-
-    useEffect(() => {
-        console.log("render")
+        }*/
     }, []);
 
 
@@ -112,7 +109,8 @@ export default function HomePage({userData, navigate}: HomePageProps) {
 
         drawRequest(ctx, pixelX, pixelY);
     };
-    ws.onMessage((message: MessageEvent) => {
+
+    ws && ws.onMessage((message: MessageEvent) => {
         const image = new Image();
         image.src = message.data;
 
@@ -125,7 +123,7 @@ export default function HomePage({userData, navigate}: HomePageProps) {
             canvas.height = image.height;
             ctx.drawImage(image, 0, 0);
         }
-    })
+    });
 
 
     return (

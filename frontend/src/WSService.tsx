@@ -1,10 +1,10 @@
-type WSService = {
+export type WSServiceType = {
     send: (message: string) => void;
     updateCanvas: (canvas: string) => void;
     onMessage: (listener: (message: MessageEvent) => void) => void;
 }
 
-export default function WSService(): WSService {
+export function WSService(): WSServiceType {
 
     const ws = new WebSocket("ws://localhost:8080/websocket-endpoint");
 
@@ -13,8 +13,7 @@ export default function WSService(): WSService {
 
 
     ws.addEventListener("message", (m) => {
-        console.log("i should now draw the canvas")
-        listenerQueue.forEach(listener => listener(m.data));
+        listenerQueue.forEach(listener => listener(m));
     });
 
     const sendMessage = (message: string) => {
