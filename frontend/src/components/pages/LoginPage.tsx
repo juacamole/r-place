@@ -1,6 +1,7 @@
-import Logo from "./assets/coop place logo.png";
+import Logo from "../../assets/coop place logo.png";
 import axios from "axios";
-import {UserDataType} from "./App.tsx";
+import {UserDataType} from "../models/model.tsx";
+
 
 type LoginPageProps = {
     userData: UserDataType

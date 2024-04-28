@@ -1,10 +1,10 @@
-import CircleDesign from "./CircleDesign.tsx";
-import {UserDataType} from "./App.tsx";
+import CircleDesign from "../design-components/CircleDesign.tsx";
 import {NavigateFunction} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
-import Logo from "./assets/coop place logo.png";
+import Logo from "../../assets/coop place logo.png";
 import axios from "axios";
-import {WSService, WSServiceType} from "./WSService.tsx";
+import {WSService, WSServiceType} from "../../WSService.tsx";
+import {UserDataType} from "../models/model.tsx";
 
 type HomePageProps = {
     userData: UserDataType;
@@ -18,16 +18,8 @@ export default function HomePage({userData, navigate}: HomePageProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
     const [scale] = useState<number>(10);
-    /* const [position] = useState({x: 0, y: 0});*/
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
     const [consoleTextValue, setConsoleTextValue] = useState<string>("")
-
-    /*const draw = (ctx: CanvasRenderingContext2D) => {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.setTransform(scale, 0, 0, scale, 0, 0);
-        ctx.fillStyle = "white";
-        ctx.fillRect(position.x, position.y, 100, 100);
-    }*/
 
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
         const pixelSize = 10;
@@ -40,13 +32,6 @@ export default function HomePage({userData, navigate}: HomePageProps) {
     useEffect(() => {
         setWs(WSService());
         importCanvas();
-        /*const canvas = canvasRef.current;
-        if (canvas) {
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-                draw(ctx);
-            }
-        }*/
     }, []);
 
 

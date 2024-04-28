@@ -1,8 +1,9 @@
-import Logo from "./assets/coop place logo.png"
+import Logo from "../../assets/coop place logo.png"
 
-import {UserDataType} from "./App.tsx";
-import CircleDesign from "./CircleDesign.tsx";
+import CircleDesign from "../design-components/CircleDesign.tsx";
 import {NavigateFunction} from "react-router-dom";
+import {UserDataType} from "../models/model.tsx";
+import React from "react";
 
 type RegisterPageProps = {
     userData: UserDataType

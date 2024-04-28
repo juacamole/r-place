@@ -1,7 +1,7 @@
-import Logo from "./assets/coop place logo.png";
+import Logo from "../../assets/coop place logo.png";
 import axios, {AxiosResponse} from "axios";
-import {UserDataType} from "./App.tsx";
-import CircleDesign from "./CircleDesign.tsx";
+import CircleDesign from "../design-components/CircleDesign.tsx";
+import {UserDataType} from "../models/model.tsx";
 
 type RegisterPage2Props = {
     userData: UserDataType

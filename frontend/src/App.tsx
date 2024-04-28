@@ -1,25 +1,17 @@
-import './App.css'
+import './components/styling/App.css'
 import {Route, Routes, useNavigate} from "react-router-dom";
-import RegisterPage from "./RegisterPage.tsx";
+import RegisterPage from "./components/pages/RegisterPage.tsx";
 import {useState} from "react";
-import RegisterPage2 from "./RegisterPage2.tsx";
-import LoginPage from "./LoginPage.tsx";
+import RegisterPage2 from "./components/pages/RegisterPage2.tsx";
+import LoginPage from "./components/pages/LoginPage.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import HomePage from "./HomePage.tsx";
-import CanvasTestComponent from "./CanvasTestComponent.tsx";
+import HomePage from "./components/pages/HomePage.tsx";
+import CanvasTestComponent from "./components/testing/CanvasTestComponent.tsx";
 import FractionParser from "./FractionParser.tsx";
+import {UserDataType} from "./components/models/model.tsx";
 
 
 
-
-export type UserDataType = {
-    "username": string;
-    "password": string;
-    "email": string;
-    "role": string;
-    "biography": string;
-    "placedpixels": number;
-}
 function App() {
 
     const navigate = useNavigate()
