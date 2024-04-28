@@ -4,6 +4,7 @@ import CircleDesign from "../design-components/CircleDesign.tsx";
 import {NavigateFunction} from "react-router-dom";
 import {UserDataType} from "../models/model.tsx";
 import React from "react";
+import axios from "axios";
 
 type RegisterPageProps = {
     userData: UserDataType
@@ -12,8 +13,6 @@ type RegisterPageProps = {
 }
 
 export default function RegisterPage({setUserData, userData, navigate}: RegisterPageProps){
-
-
 
     const saveUserDataOnChange = (name: string, value: string) => {
         const newUserData = {
@@ -28,9 +27,19 @@ export default function RegisterPage({setUserData, userData, navigate}: Register
         <div className={"register-tag"}>Register</div>
         <form onSubmit={(e) => {
             e.preventDefault();
-            navigate("/register/2");
+            console.log(userData.email)
+            axios.post("/place/mailcheck", userData).then((e) => {
+
+                if (e.data){
+                    alert("Account with Email already exists")
+                } else {
+                    navigate("/register/2");
+                }
+            }
+
+            );
         }}>
-            <input placeholder={"E-Mail Adresse"} type={"email"} name={"email"} className={"email-input"} onChange={(e) => {
+            <input placeholder={"E-Mail Adresse"} required={true} type={"email"} name={"email"} className={"email-input"} onChange={(e) => {
                 saveUserDataOnChange(e.target.name, e.target.value)
             }}/>
             <button id={"next-button"} type={"submit"}>Next</button>

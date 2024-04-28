@@ -1,14 +1,16 @@
 import Logo from "../../assets/coop place logo.png";
 import axios, {AxiosResponse} from "axios";
 import CircleDesign from "../design-components/CircleDesign.tsx";
-import {UserDataType} from "../models/model.tsx";
+import {jwtResponseType, UserDataType} from "../models/model.tsx";
+import {NavigateFunction} from "react-router-dom";
 
 type RegisterPage2Props = {
     userData: UserDataType
     setUserData: React.Dispatch<React.SetStateAction<UserDataType>>
+    navigate: NavigateFunction
 }
 
-export default function RegisterPage2({setUserData, userData}: RegisterPage2Props){
+export default function RegisterPage2({setUserData, userData, navigate}: RegisterPage2Props){
 
 
     const saveUserDataOnChange = (name: string, value: string) => {
@@ -23,9 +25,9 @@ export default function RegisterPage2({setUserData, userData}: RegisterPage2Prop
         <img src={Logo} className={"logo"}/>
         <div className={"register-tag"}>Register</div>
         <form onSubmit={(e) => {axios.post("/place/register",
-            userData).then((u: AxiosResponse<UserDataType>) => {
-                const newUser: UserDataType = u.data;
-                setUserData(newUser);
+            userData).then((u: AxiosResponse<jwtResponseType>) => {
+                localStorage.setItem('jwt', u.data.token);
+                navigate("/home");
         });
             e.preventDefault();
         }}>

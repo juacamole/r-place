@@ -39,7 +39,7 @@ export default function HomePage({userData, navigate}: HomePageProps) {
         axios.get("/place/canvas", {responseType: 'json'})
             .then((res) => {
                 try {
-                    const canvasData = res.data.canvasData;/*"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMCRUiMrIBQVkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoC4AAABQAAEiE+h1AAAAAElFTkSuQmCC";*/
+                    const canvasData = res.data.canvasData;
                     if (canvasData) {
                         const image = new Image();
                         image.src = canvasData;
@@ -154,7 +154,6 @@ export default function HomePage({userData, navigate}: HomePageProps) {
                 <input
                     id="console"
                     onChange={(e) => {
-                        /*importCanvas();*/
                         setConsoleTextValue(e.target.value)
                         const parts = e.target.value.replace(/[()]/g, "").split("/");
                         const parsedValues = parts.map(part => parseInt(part, 10));

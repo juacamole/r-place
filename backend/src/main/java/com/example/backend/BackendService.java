@@ -10,6 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BackendService {
@@ -62,5 +64,9 @@ public class BackendService {
         return AuthenticationResponse.builder()
                 .token(jtwToken)
                 .build();
+    }
+
+    public boolean checkEMailAdress(AuthenticationRequest request) {
+        return urepo.findByEmail(request.getEmail()).isPresent();
     }
 }

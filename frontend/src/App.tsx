@@ -32,7 +32,7 @@ function App() {
         <Route path={"/home"} element={<HomePage navigate={navigate} setUserData={setUserData} userData={userData}/>}/>
         <Route path={"/"} element={<LoginPage setUserData={setUserData} userData={userData}/>}/>
         <Route path={"/register"} element={<RegisterPage userData={userData} setUserData={setUserData} navigate={navigate}/>}/>
-        <Route path={"/register/2"} element={<RegisterPage2 userData={userData} setUserData={setUserData}/>}/>
+        <Route path={"/register/2"} element={<RegisterPage2 userData={userData} setUserData={setUserData} navigate={navigate}/>}/>
     </Routes>
 
     </>

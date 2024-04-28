@@ -29,6 +29,11 @@ public class BackendController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    @PostMapping("/mailcheck")
+    public boolean checkEMailAdress(@RequestBody AuthenticationRequest request){
+        return service.checkEMailAdress(request);
+    }
+
 
     @PutMapping("/canvas/save")
     public void updateCanvas(@RequestBody String canvasData) {

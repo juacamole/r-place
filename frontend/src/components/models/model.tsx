@@ -1,3 +1,4 @@
+
 export type UserDataType = {
     "username": string;
     "password": string;
@@ -5,4 +6,8 @@ export type UserDataType = {
     "role": string;
     "biography": string;
     "placedpixels": number;
+}
+
+export type jwtResponseType = {
+    "token": string;
 }

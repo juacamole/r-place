@@ -26,10 +26,10 @@ export default function LoginPage({setUserData, userData}: LoginPageProps){
             userData);
             e.preventDefault();
         }}>
-            <input id={"login-username-input"} placeholder={"username"} name={"username"} className={"username-input"} onChange={(e) => {
+            <input id={"login-username-input"} required={true} placeholder={"username"} name={"username"} className={"username-input"} onChange={(e) => {
                 saveUserDataOnChange(e.target.name, e.target.value)
             }}/>
-            <input id={"login-password-input"} placeholder={"password"} type={"password"} name={"password"} className={"password-input"} onChange={(e) => {
+            <input id={"login-password-input"} required={true} placeholder={"password"} type={"password"} name={"password"} className={"password-input"} onChange={(e) => {
             saveUserDataOnChange(e.target.name, e.target.value)
         }}/>
             <button id={"login-button"} type={"submit"}>Login</button>
