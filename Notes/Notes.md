@@ -75,3 +75,27 @@ So kann mit einem Test das ganze Backend und auch die Datenbank getestet werden.
 Da ich mir sehr viele Gedanken mache, wie ich mein Programm
 verbessern könnte, habe ich schon einige Ideen gesammelt, die
 Zeitaufwändig sind und deshalb nur vielleicht integriert werden.
+
+### Alternativen
+
+Um sicherzugehen, dass ich ein funktionales Produkt erhalte, Plane ich Alternativen für Funktionen, die ich
+möglicherweise nicht fertigstellen kann.
+
+#### Login System
+
+Falls ich die Funktion per JWT Token mit Nutzer generierung und RBAC (Role Based Access Control) nicht fertigstellen
+kann, werde ich die Website zugänglich für alle Nutzer machen
+und die Login und Register Seite nur für "Statistik zwecke", oder gar nicht brauchen.
+
+#### Mobile First
+
+Ich möchte Mobile First, Bootstrap verwenden, um die Website zugänglicher zu gestalten. Falls mir dies nicht Gelingen
+sollte,
+erstelle ich einfach eine Version für die standard Desktop grösse und belasse es dabei.
+
+#### Tests
+
+Ich möchte mit Integration und Unit-Tests mein Backend Testen, um die Nötigen funktionen, wie das speichern und abholen
+des Canvas,
+(Optional) das Generieren von Nutzern und Login/Logout/Register funktionen, wie auch die Websocket Session (Wenn
+möglich) zu Testen.

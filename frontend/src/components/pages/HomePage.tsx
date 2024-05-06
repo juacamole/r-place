@@ -30,6 +30,7 @@ export default function HomePage({userData, navigate}: HomePageProps) {
 
 
     useEffect(() => {
+        console.log(localStorage.getItem("jwt"))
         setWs(WSService());
         importCanvas();
     }, []);
@@ -163,7 +164,6 @@ export default function HomePage({userData, navigate}: HomePageProps) {
                     }}
                     value={consoleTextValue}
                 />
-                <button type="submit">Save Canvas</button>
             </form>
             <canvas
                 ref={canvasRef}

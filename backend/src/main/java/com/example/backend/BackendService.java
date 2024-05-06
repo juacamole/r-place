@@ -10,8 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class BackendService {
@@ -23,13 +21,9 @@ public class BackendService {
     private final AuthenticationManager authenticationManager;
 
 
-
     public CanvasData updateCanvas(CanvasData canvasEntity) {
         canvasEntity.setId(1);
         crepo.deleteById(1);
-
-        System.out.println(crepo.findCanvas());
-
         return crepo.save(canvasEntity);
     }
 

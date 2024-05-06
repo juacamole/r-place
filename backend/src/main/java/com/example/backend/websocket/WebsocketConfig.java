@@ -19,7 +19,13 @@ public class WebsocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(new WebSocketHandler(service), "/websocket-endpoint")
-                .setAllowedOrigins("*");
+                .setAllowedOrigins("localhost:8080/home");
     }
+
+    public WebSocketHandler myHandler() {
+        return new WebSocketHandler(service);
+    }
+
 }
+
 

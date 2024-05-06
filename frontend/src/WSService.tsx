@@ -6,7 +6,7 @@ export type WSServiceType = {
 
 export function WSService(): WSServiceType {
 
-    const ws = new WebSocket("ws://localhost:8080/websocket-endpoint");
+    const ws = new WebSocket(`ws://localhost:8080/websocket-endpoint`, ["access_token", (localStorage.getItem("jwt") + "")]);
 
     const queue: string[] = [];
     const listenerQueue: ((message: MessageEvent) => void)[] = [];
