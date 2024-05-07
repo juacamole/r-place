@@ -22,57 +22,62 @@ export default function HomePage({userData, navigate}: HomePageProps) {
     const [consoleTextValue, setConsoleTextValue] = useState<string>("")
 
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
-        const pixelSize = 10;
+        const pixelSize = scale;
         ctx.fillStyle = currentColor;
         ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
-        canvasRef.current != null && ws && ws.updateCanvas((canvasRef.current).toDataURL())
+        canvasRef.current != null && ws && ws.updateCanvas({
+            "token": localStorage.getItem("jwt") + "".toString(),
+            "canvas": (canvasRef.current).toDataURL()
+        })
     };
 
 
     useEffect(() => {
-        console.log(localStorage.getItem("jwt"))
         setWs(WSService());
-        importCanvas();
+        ws?.updateCanvas({
+            "token": localStorage.getItem("jwt") + "".toString(),
+            "canvas": ""
+        })
     }, []);
 
 
-    const importCanvas = async () => {
-        axios.get("/place/canvas", {responseType: 'json'})
-            .then((res) => {
-                try {
-                    const canvasData = res.data.canvasData;
-                    if (canvasData) {
-                        const image = new Image();
-                        image.src = canvasData;
+    /* const importCanvas = async () => {
+         axios.get("/place/canvas", {responseType: 'json'})
+             .then((res) => {
+                 try {
+                     const canvasData = res.data.canvasData;
+                     if (canvasData) {
+                         const image = new Image();
+                         image.src = canvasData;
 
-                        image.onload = () => {
-                            const canvas = canvasRef.current;
-                            if (canvas) {
-                                const ctx = canvas.getContext("2d");
-                                if (ctx) {
-                                    canvas.width = image.width;
-                                    canvas.height = image.height;
-                                    ctx.drawImage(image, 0, 0);
-                                } else {
-                                    console.error("Canvas context is null.");
-                                }
-                            }
-                        };
+                         image.onload = () => {
+                             const canvas = canvasRef.current;
+                             if (canvas) {
+                                 const ctx = canvas.getContext("2d");
+                                 if (ctx) {
+                                     canvas.width = image.width;
+                                     canvas.height = image.height;
+                                     ctx.drawImage(image, 0, 0);
+                                 } else {
+                                     console.error("Canvas context is null.");
+                                 }
+                             }
+                         };
 
-                        image.onerror = () => {
-                            console.error("Failed to load the image with provided Base64 data.");
-                        };
-                    } else {
-                        console.error("The 'canvasData' key does not contain a valid 'image' key.");
-                    }
-                } catch (error) {
-                    console.error("Error parsing 'canvasData' or loading the image: ", error);
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching or processing canvas data: ", error);
-            });
-    };
+                         image.onerror = () => {
+                             console.error("Failed to load the image with provided Base64 data.");
+                         };
+                     } else {
+                         console.error("The 'canvasData' key does not contain a valid 'image' key.");
+                     }
+                 } catch (error) {
+                     console.error("Error parsing 'canvasData' or loading the image: ", error);
+                 }
+             })
+             .catch(error => {
+                 console.error("Error fetching or processing canvas data: ", error);
+             });
+     };*/
 
     const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
@@ -97,6 +102,7 @@ export default function HomePage({userData, navigate}: HomePageProps) {
     };
 
     ws && ws.onMessage((message: MessageEvent) => {
+        console.log("pic received")
         const image = new Image();
         image.src = message.data;
 

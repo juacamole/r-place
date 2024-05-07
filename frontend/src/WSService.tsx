@@ -1,12 +1,14 @@
+import {MessageType} from "./App.tsx";
+
 export type WSServiceType = {
     send: (message: string) => void;
-    updateCanvas: (canvas: string) => void;
+    updateCanvas: (message: MessageType) => void;
     onMessage: (listener: (message: MessageEvent) => void) => void;
 }
 
 export function WSService(): WSServiceType {
 
-    const ws = new WebSocket(`ws://localhost:8080/websocket-endpoint`, ["access_token", (localStorage.getItem("jwt") + "")]);
+    const ws = new WebSocket(`ws://localhost:8080/ws`);
 
     const queue: string[] = [];
     const listenerQueue: ((message: MessageEvent) => void)[] = [];
@@ -17,8 +19,10 @@ export function WSService(): WSServiceType {
     });
 
     const sendMessage = (message: string) => {
+        console.log("guacamole")
         if (ws.readyState == WebSocket.OPEN) {
             ws.send(message);
+            console.log("guac2")
         } else {
             queue.push(message);
         }
@@ -29,8 +33,8 @@ export function WSService(): WSServiceType {
     });
 
 
-    const updateCanvas = (canvas: string) => {
-        sendMessage(canvas);
+    const updateCanvas = (message: MessageType) => {
+        sendMessage(JSON.stringify(message));
     }
 
     const registerEventListener = (listener: (message: MessageEvent) => void) => {

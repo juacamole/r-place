@@ -1,14 +1,17 @@
 import Logo from "../../assets/coop place logo.png";
 import axios, {AxiosResponse} from "axios";
 import {jwtResponseType, UserDataType} from "../models/model.tsx";
+import CircleDesign from "../design-components/CircleDesign.tsx";
+import {NavigateFunction} from "react-router-dom";
 
 
 type LoginPageProps = {
     userData: UserDataType
     setUserData: React.Dispatch<React.SetStateAction<UserDataType>>
+    navigate: NavigateFunction
 }
 
-export default function LoginPage({setUserData, userData}: LoginPageProps) {
+export default function LoginPage({setUserData, userData, navigate}: LoginPageProps) {
 
     const saveUserDataOnChange = (name: string, value: string) => {
         const newUserData = {
@@ -24,8 +27,11 @@ export default function LoginPage({setUserData, userData}: LoginPageProps) {
 
         <form onSubmit={(e) => {
             axios.post("/place/authenticate",
-                userData).then((e: AxiosResponse<jwtResponseType>) => {
-                localStorage.setItem("jwt", e.data.token);
+                userData).then((res: AxiosResponse<jwtResponseType>) => {
+                if (res) {
+                    localStorage.setItem("jwt", res.data.token);
+                    navigate("/home")
+                }
             })
             e.preventDefault();
         }}>
@@ -39,5 +45,6 @@ export default function LoginPage({setUserData, userData}: LoginPageProps) {
             }}/>
             <button id={"login-button"} type={"submit"}>Login</button>
         </form>
+        <CircleDesign/>
     </>
 }
