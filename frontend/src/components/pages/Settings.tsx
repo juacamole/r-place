@@ -4,6 +4,7 @@ import Logo from "../../assets/coop place logo.png";
 export default function Settings() {
     return <>
         <img src={Logo} className={"logo"} alt={""}/>
+        <div id={"setting-main-panel"}></div>
         <CircleDesign></CircleDesign>
     </>
 }

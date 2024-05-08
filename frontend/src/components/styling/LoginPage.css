@@ -1,0 +1,475 @@
+/*todo*/
+@media (min-width: 1025px) and (max-width: 2000px) and (max-height: 1200px) {
+    .email-input {
+        position: fixed;
+        top: 21.8vw;
+        left: 40vw;
+        width: 20vw;
+        height: 2.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .email-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .username-input {
+        position: fixed;
+        top: 25vw;
+        left: 40vw;
+        width: 20vw;
+        height: 2.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .username-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .password-input {
+        position: fixed;
+        top: 28.2vw;
+        left: 40vw;
+        width: 20vw;
+        height: 2.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .password-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    #login-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 3vw;
+        text-align: center;
+        top: 33vw;
+        width: 8vw;
+        left: 46vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.7vh;
+    }
+
+    #login-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .login-tag {
+        text-align: center;
+        z-index: 2;
+        position: fixed;
+        top: 13vw;
+        left: 35vw;
+        right: 35vw;
+        font-size: 5vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+    }
+}
+
+/*todo*/
+@media (min-width: 801px) and (max-width: 1024px) {
+    .email-input {
+        position: fixed;
+        top: 31.8vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .email-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .username-input {
+        position: fixed;
+        top: 37vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .username-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .password-input {
+        position: fixed;
+        top: 42.2vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .password-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    #login-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 4vw;
+        text-align: center;
+        top: 48vw;
+        width: 16vw;
+        left: 42vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.7vh;
+    }
+
+    #login-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .login-tag {
+        text-align: center;
+        z-index: 2;
+        position: fixed;
+        top: 20.5vw;
+        left: 35vw;
+        right: 35vw;
+        font-size: 8vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+    }
+}
+
+/*todo*/
+@media (min-width: 501px) and (max-width: 800px) {
+    .email-input {
+        position: fixed;
+        top: 37.8vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .email-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .username-input {
+        position: fixed;
+        top: 43vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .username-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .password-input {
+        position: fixed;
+        top: 48.2vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .password-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    #login-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 4vw;
+        text-align: center;
+        top: 54vw;
+        width: 16vw;
+        left: 42vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.1vh;
+        font-size: 2.5vw;
+    }
+
+    #login-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .login-tag {
+        text-align: center;
+        z-index: 2;
+        position: fixed;
+        top: 26.5vw;
+        left: 35vw;
+        right: 35vw;
+        font-size: 8vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+    }
+}
+
+/*todo*/
+@media (min-width: 301px) and (max-width: 500px) {
+    .email-input {
+        position: fixed;
+        top: 49.8vw;
+        left: 31vw;
+        width: 38vw;
+        height: 6vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+        font-size: 3.5vw;
+    }
+
+    .email-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .username-input {
+        position: fixed;
+        top: 57.5vw;
+        left: 31vw;
+        width: 38vw;
+        height: 6vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+        font-size: 3.5vw;
+    }
+
+    .username-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .password-input {
+        position: fixed;
+        top: 65.2vw;
+        left: 31vw;
+        width: 38vw;
+        height: 6vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+        font-size: 3.5vw;
+    }
+
+    .password-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    #login-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 6vw;
+        text-align: center;
+        top: 74vw;
+        width: 28vw;
+        left: 36vw;
+        color: black;
+        font-weight: bolder;
+        font-size: 3.5vw;
+        padding-top: 0vh;
+    }
+
+    #login-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .login-tag {
+        text-align: center;
+        z-index: 2;
+        position: fixed;
+        top: 33.5vw;
+        left: 35vw;
+        right: 35vw;
+        font-size: 12vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+    }
+}
+
+/*todo*/
+@media (min-width: 280px) and (max-width: 300px) {
+    .email-input {
+        position: fixed;
+        top: 31.8vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .email-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .username-input {
+        position: fixed;
+        top: 37vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .username-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .password-input {
+        position: fixed;
+        top: 42.2vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    .password-input:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    #login-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 4vw;
+        text-align: center;
+        top: 48vw;
+        width: 16vw;
+        left: 42vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.7vh;
+    }
+
+    #login-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+    }
+
+    .login-tag {
+        text-align: center;
+        z-index: 2;
+        position: fixed;
+        top: 20.5vw;
+        left: 35vw;
+        right: 35vw;
+        font-size: 8vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+    }
+
+}

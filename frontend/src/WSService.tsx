@@ -19,10 +19,8 @@ export function WSService(): WSServiceType {
     });
 
     const sendMessage = (message: string) => {
-        console.log("guacamole")
         if (ws.readyState == WebSocket.OPEN) {
             ws.send(message);
-            console.log("guac2")
         } else {
             queue.push(message);
         }

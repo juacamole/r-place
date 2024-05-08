@@ -2,7 +2,7 @@ import CircleDesign from "../design-components/CircleDesign.tsx";
 import {NavigateFunction} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import Logo from "../../assets/coop place logo.png";
-import axios from "axios";
+/*import axios from "axios";*/
 import {WSService, WSServiceType} from "../../WSService.tsx";
 import {UserDataType} from "../models/model.tsx";
 
@@ -13,13 +13,15 @@ type HomePageProps = {
 };
 
 export default function HomePage({userData, navigate}: HomePageProps) {
-
     const [ws, setWs] = useState<WSServiceType>();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
     const [scale] = useState<number>(10);
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
     const [consoleTextValue, setConsoleTextValue] = useState<string>("")
+    let curserPos: number[] = [];
+    const [objPos, setObjPos] = useState<number[]>([]);
+    const [draggable, setDraggable] = useState<boolean>(false);
 
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
         const pixelSize = scale;
@@ -34,50 +36,39 @@ export default function HomePage({userData, navigate}: HomePageProps) {
 
     useEffect(() => {
         setWs(WSService());
+
+
+        const dragBtn = document.querySelector("#color-picker-parent");
+        if (!dragBtn) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            curserPos = [e.pageX, e.pageY];
+            setObjPos(curserPos)
+        }
+
+        const registerMoveListener = () => {
+            window.addEventListener("mousemove", handleMouseMove);
+            window.addEventListener("mouseup", removeListener);
+        };
+
+
+        const removeListener = () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseup", removeListener);
+        }
+
+        dragBtn.addEventListener("mousedown", registerMoveListener);
+
+
+    }, []);
+
+    useEffect(() => {
         ws?.updateCanvas({
             "token": localStorage.getItem("jwt") + "".toString(),
             "canvas": ""
         })
-    }, []);
+    }, [ws]);
 
-
-    /* const importCanvas = async () => {
-         axios.get("/place/canvas", {responseType: 'json'})
-             .then((res) => {
-                 try {
-                     const canvasData = res.data.canvasData;
-                     if (canvasData) {
-                         const image = new Image();
-                         image.src = canvasData;
-
-                         image.onload = () => {
-                             const canvas = canvasRef.current;
-                             if (canvas) {
-                                 const ctx = canvas.getContext("2d");
-                                 if (ctx) {
-                                     canvas.width = image.width;
-                                     canvas.height = image.height;
-                                     ctx.drawImage(image, 0, 0);
-                                 } else {
-                                     console.error("Canvas context is null.");
-                                 }
-                             }
-                         };
-
-                         image.onerror = () => {
-                             console.error("Failed to load the image with provided Base64 data.");
-                         };
-                     } else {
-                         console.error("The 'canvasData' key does not contain a valid 'image' key.");
-                     }
-                 } catch (error) {
-                     console.error("Error parsing 'canvasData' or loading the image: ", error);
-                 }
-             })
-             .catch(error => {
-                 console.error("Error fetching or processing canvas data: ", error);
-             });
-     };*/
 
     const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
@@ -102,7 +93,6 @@ export default function HomePage({userData, navigate}: HomePageProps) {
     };
 
     ws && ws.onMessage((message: MessageEvent) => {
-        console.log("pic received")
         const image = new Image();
         image.src = message.data;
 
@@ -124,7 +114,7 @@ export default function HomePage({userData, navigate}: HomePageProps) {
             <div id={"home-background"}/>
 
             <div id={"user-profile"}>
-                <div>
+                <div id={"username-and-role-display"}>
                     {userData.username} {userData.role}
                 </div>
                 <p id={"user-biography"}>{userData.biography}</p>
@@ -133,7 +123,13 @@ export default function HomePage({userData, navigate}: HomePageProps) {
                 </button>
             </div>
 
-            <div id={"color-picker-parent"}>
+            <div id={"color-picker-parent"} style={{
+                "top": objPos[1] - 10,
+                "left": objPos[0] - 10,
+                "zIndex": 4
+            }} onClick={() => {
+                setDraggable(!draggable)
+            }}>
                 <input
                     id="color-picker"
                     type="color"
@@ -142,7 +138,6 @@ export default function HomePage({userData, navigate}: HomePageProps) {
 
 
             </div>
-            <div id={"test-display"}>{consoleValue}</div>
 
             <form
                 onSubmit={(e) => {
@@ -152,24 +147,24 @@ export default function HomePage({userData, navigate}: HomePageProps) {
                         const ctx = canvas.getContext("2d");
                         if (ctx) {
                             drawRequest(ctx, consoleValue[0], consoleValue[1]);
-                            const dataUrl = canvas.toDataURL();
-                            axios.put("/place/canvas/save", {image: dataUrl}).catch(console.error);
                         }
                     }
                 }}
             >
-                <input
-                    id="console"
-                    onChange={(e) => {
-                        setConsoleTextValue(e.target.value)
-                        const parts = e.target.value.replace(/[()]/g, "").split("/");
-                        const parsedValues = parts.map(part => parseInt(part, 10));
-                        if (parsedValues.length === 2 && !isNaN(parsedValues[0]) && !isNaN(parsedValues[1])) {
-                            setConsoleValue(parsedValues);
-                        }
-                    }}
-                    value={consoleTextValue}
-                />
+                <div id={"console-frame"}>
+                    <input
+                        id="console"
+                        onChange={(e) => {
+                            setConsoleTextValue(e.target.value)
+                            const parts = e.target.value.replace(/[()]/g, "").split("/");
+                            const parsedValues = parts.map(part => parseInt(part, 10));
+                            if (parsedValues.length === 2 && !isNaN(parsedValues[0]) && !isNaN(parsedValues[1])) {
+                                setConsoleValue(parsedValues);
+                            }
+                        }}
+                        value={consoleTextValue}
+                    />
+                </div>
             </form>
             <canvas
                 ref={canvasRef}

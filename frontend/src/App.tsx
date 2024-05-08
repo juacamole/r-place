@@ -1,4 +1,10 @@
-import './components/styling/App.css'
+import './components/styling/Global.css'
+import './components/styling/LoginPage.css'
+import './components/styling/RegisterPages.css'
+import './components/styling/HomePage.css'
+import './components/styling/Settings.css'
+
+
 import {Route, Routes, useNavigate} from "react-router-dom";
 import RegisterPage from "./components/pages/RegisterPage.tsx";
 import {useState} from "react";
@@ -32,7 +38,7 @@ function App() {
             <Route path={"/settings"} element={<Settings/>}/>
             <Route path={"/home"}
                    element={<HomePage navigate={navigate} setUserData={setUserData} userData={userData}/>}/>
-            <Route path={"/"} element={<LoginPage setUserData={setUserData} userData={userData} navigate={navigate}/>}/>
+            <Route path={"/"} element={<LoginPage navigate={navigate}/>}/>
             <Route path={"/register"}
                    element={<RegisterPage userData={userData} setUserData={setUserData} navigate={navigate}/>}/>
             <Route path={"/register/2"}

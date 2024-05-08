@@ -5,7 +5,10 @@ import com.example.backend.jwt.auth.AuthenticationResponse;
 import com.example.backend.jwt.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -30,22 +33,7 @@ public class BackendController {
     }
 
     @PostMapping("/mailcheck")
-    public boolean checkEMailAdress(@RequestBody AuthenticationRequest request){
+    public boolean checkEMailAdress(@RequestBody AuthenticationRequest request) {
         return service.checkEMailAdress(request);
     }
-
-
-    @PutMapping("/canvas/save")
-    public void updateCanvas(@RequestBody String canvasData) {
-        CanvasData canvasEntity = new CanvasData(canvasData);
-        service.updateCanvas(canvasEntity);
-    }
-
-    @GetMapping("/canvas")
-    public CanvasData getCanvas() {
-        CanvasData canvas = service.getCanvas();
-        return canvas;
-    }
-
-
 }

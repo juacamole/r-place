@@ -42,13 +42,11 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
         String username = jwtService.extractUsername(decodedMessage.getToken());
         if (username != null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if (jwtService.isTokenValid(decodedMessage.getToken(), userDetails) && decodedMessage.getToken() != null) {
+            if (jwtService.isTokenValid(decodedMessage.getToken(), userDetails) && decodedMessage.getToken() != null && !decodedMessage.getCanvas().isEmpty()) {
                 CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
                 sendCanvasToAll(newestCanvas);
-                System.out.println("token vorhanden");
-            } else if (decodedMessage.getToken() == null) {
+            } else {
                 CanvasData newestCanvas = service.getCanvas();
-                System.out.println(newestCanvas);
                 sendCanvasToAll(newestCanvas);
             }
         }

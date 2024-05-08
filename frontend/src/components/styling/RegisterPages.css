@@ -1,0 +1,283 @@
+/*todo*/
+@media (min-width: 1025px) and (max-width: 2000px) and (max-height: 1200px) {
+    .register-tag {
+        text-align: center;
+        z-index: 2;
+        position: fixed;
+        top: 15vw;
+        left: 35vw;
+        right: 35vw;
+        font-size: 5vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+    }
+
+    #next-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 3vw;
+        text-align: center;
+        top: 25vw;
+        width: 8vw;
+        left: 46vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.7vh;
+    }
+
+    #next-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+
+    #next-button2 {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 3vw;
+        text-align: center;
+        top: 32.5vw;
+        width: 8vw;
+        left: 46vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.7vh;
+    }
+
+    #next-button2:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+}
+
+/*todo*/
+@media (min-width: 801px) and (max-width: 1024px) {
+    .register-tag {
+        z-index: 2;
+        position: fixed;
+        top: 23.5vw;
+        left: 35vw;
+        font-size: 8vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+        text-align: center;
+    }
+
+
+    #next-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 5vw;
+        text-align: center;
+        top: 41vw;
+        width: 12vw;
+        left: 44vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0;
+        padding-left: 2.5vw;
+        font-size: 3vw;
+    }
+
+    #next-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+
+    .email-input {
+        position: fixed;
+        top: 35.8vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 3.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    #next-button2 {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 5vw;
+        text-align: center;
+        top: 48vw;
+        width: 12vw;
+        left: 44vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0;
+        padding-left: 2.5vw;
+        font-size: 3vw;
+    }
+
+    #next-button2:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+}
+
+/*todo*/
+@media (min-width: 501px) and (max-width: 800px) {
+    .register-tag {
+        z-index: 2;
+        position: fixed;
+        top: 30vw;
+        left: 35vw;
+        font-size: 8vw;
+        font-family: "Marker Felt", fantasy;
+        text-align: center;
+    }
+
+    #next-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 5vw;
+        text-align: center;
+        top: 50vw;
+        width: 12vw;
+        left: 44vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0;
+        padding-left: 2.5vw;
+        font-size: 3vw;
+    }
+
+    #next-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+
+    .email-input {
+        position: fixed;
+        top: 43.8vw;
+        left: 37.5vw;
+        width: 25vw;
+        height: 4.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    #next-button2 {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 5vw;
+        text-align: center;
+        top: 54vw;
+        width: 12vw;
+        left: 44vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0;
+        padding-left: 2.5vw;
+        font-size: 3vw;
+    }
+
+    #next-button2:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+}
+
+/*todo*/
+@media (min-width: 301px) and (max-width: 500px) {
+    .register-tag {
+        z-index: 2;
+        position: fixed;
+        top: 43vw;
+        left: 35vw;
+        font-size: 8vw;
+        font-family: "Marker Felt", fantasy;
+    }
+
+    #next-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 7vw;
+        text-align: center;
+        top: 70vw;
+        width: 20vw;
+        left: 40vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0;
+        padding-left: 4vw;
+        font-size: 4vw;
+    }
+
+    #next-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+
+    .email-input {
+        position: fixed;
+        top: 58vw;
+        left: 32.5vw;
+        width: 35vw;
+        height: 5.5vw;
+        background-color: #ffffff;
+        color: black;
+        z-index: 3;
+        font-weight: bolder;
+        border-radius: 1vw;
+        border: #000000 solid 0.15vw;
+        text-align: center;
+    }
+
+    #next-button2 {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 7vw;
+        text-align: center;
+        top: 75vw;
+        width: 20vw;
+        left: 40vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0;
+        padding-left: 4vw;
+        font-size: 4vw;
+    }
+
+    #next-button2:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+}
+
+/*todo*/
+@media (min-width: 280px) and (max-width: 300px) {
+    .register-tag {
+        z-index: 2;
+        position: fixed;
+        top: 60vw;
+        left: 42vw;
+        font-size: 8vw;
+        font-family: "Marker Felt", fantasy;
+    }
+}
