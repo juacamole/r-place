@@ -33,18 +33,34 @@ export default function LoginPage({navigate}: LoginPageProps) {
     }
 
     return <>
-        <img src={Logo} className={"logo"}/>
+        <img src={Logo} className={"logo"} alt={""}/>
         <div className={"login-tag"}>Login</div>
 
         <form onSubmit={(e) => {
+            e.preventDefault();
+
             axios.post("/place/authenticate",
                 loginData).then((res: AxiosResponse<jwtResponseType>) => {
+                console.log(res)
+                console.log("gud cred")
                 if (res) {
                     localStorage.setItem("jwt", res.data.token);
                     navigate("/home")
                 }
-            })
-            e.preventDefault();
+
+            }).catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log("Wrong credentials");
+                alert("Wrong Credentials");
+            });
         }}>
             <input id={"login-email-input"} required={true} placeholder={"email"} name={"email"}
                    className={"email-input"} type={"email"} onChange={(e) => {

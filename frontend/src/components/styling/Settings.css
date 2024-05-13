@@ -1,5 +1,100 @@
 /*todo*/
 @media (min-width: 1025px) and (max-width: 2000px) and (max-height: 1200px) {
+    #setting-main-panel {
+        position: fixed;
+        z-index: 3;
+        top: 27vh;
+        left: 20vw;
+        height: 70vh;
+        width: 60vw;
+        background-color: #d4d4d4;
+        border: black solid 0.125vw;
+        border-radius: 1.5vw;
+        box-shadow: black 0.5vw 0.5vh 1vw;
+    }
+
+    #save-changes {
+        position: fixed;
+        z-index: 4;
+        background-color: #0cf7c8;
+        border: black solid 0.125vw;
+        border-radius: 0.5vw;
+        bottom: 5vh;
+        right: 23vw;
+    }
+
+    #save-changes:hover {
+        background-color: #06c7a0;
+    }
+
+    #back-button {
+        position: fixed;
+        z-index: 4;
+        background-color: #6c31d4;
+        border: black solid 0.125vw;
+        border-radius: 0.5vw;
+        bottom: 5vh;
+        left: 23vw;
+        color: white;
+    }
+
+    #back-button:hover {
+        background-color: #4c2294;
+    }
+
+    #edit-username {
+        position: fixed;
+        z-index: 4;
+        width: 10vw;
+        height: 3vh;
+        left: 45vw;
+        top: 35vh;
+        text-align: center;
+        border: black solid 0.125vw;
+        border-radius: 0.5vw;
+    }
+
+    #email-display {
+        position: fixed;
+        background-color: white;
+        color: black;
+        opacity: 50%;
+        z-index: 4;
+        width: 10vw;
+        height: 3vh;
+        left: 45vw;
+        top: 30vh;
+        text-align: center;
+        border: black solid 0.125vw;
+        border-radius: 0.5vw;
+    }
+
+    #edit-biography {
+        position: fixed;
+        z-index: 4;
+        width: 20vw;
+        height: 6vh;
+        left: 40vw;
+        top: 40vh;
+        text-align: center;
+        border: black solid 0.125vw;
+        border-radius: 0.5vw;
+    }
+
+    #placedpixel-display {
+        position: fixed;
+        background-color: white;
+        color: black;
+        opacity: 50%;
+        z-index: 4;
+        width: 10vw;
+        height: 3vh;
+        left: 45vw;
+        top: 48vh;
+        text-align: center;
+        border: black solid 0.125vw;
+        border-radius: 0.5vw;
+    }
 
 }
 

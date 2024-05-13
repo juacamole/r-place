@@ -2,27 +2,29 @@ import CircleDesign from "../design-components/CircleDesign.tsx";
 import {NavigateFunction} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import Logo from "../../assets/coop place logo.png";
-/*import axios from "axios";*/
 import {WSService, WSServiceType} from "../../WSService.tsx";
 import {UserDataType} from "../models/model.tsx";
+import axios, {AxiosResponse} from "axios";
+import {ExpectedResponseType} from "./Settings.tsx";
 
 type HomePageProps = {
     userData: UserDataType;
-    setUserData: React.Dispatch<React.SetStateAction<UserDataType>>;
     navigate: NavigateFunction;
+    ColorPickerDraggable: boolean;
+    setColorPickerDraggable: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function HomePage({userData, navigate}: HomePageProps) {
+export default function HomePage({userData, navigate, ColorPickerDraggable}: HomePageProps) {
     const [ws, setWs] = useState<WSServiceType>();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
     const [scale] = useState<number>(10);
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
     const [consoleTextValue, setConsoleTextValue] = useState<string>("")
-    let curserPos: number[] = [];
-    const [objPos, setObjPos] = useState<number[]>([]);
+    let cursorPos: number[] = [];
+    const [objPos, setObjPos] = useState<number[]>([20, 20]);
+    let ObjectPosition: number[] = [];
     const [draggable, setDraggable] = useState<boolean>(false);
-
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
         const pixelSize = scale;
         ctx.fillStyle = currentColor;
@@ -36,23 +38,30 @@ export default function HomePage({userData, navigate}: HomePageProps) {
 
     useEffect(() => {
         setWs(WSService());
+        getUser();
 
 
         const dragBtn = document.querySelector("#color-picker-parent");
         if (!dragBtn) return;
 
         const handleMouseMove = (e: MouseEvent) => {
-            curserPos = [e.pageX, e.pageY];
-            setObjPos(curserPos)
+            if (!ColorPickerDraggable) return;
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            cursorPos = [e.pageX, e.pageY];
+            ObjectPosition = cursorPos;
+            setObjPos(cursorPos)
         }
 
         const registerMoveListener = () => {
+            if (!ColorPickerDraggable) return;
             window.addEventListener("mousemove", handleMouseMove);
             window.addEventListener("mouseup", removeListener);
         };
 
 
         const removeListener = () => {
+            if (!ColorPickerDraggable) return;
+            handleNewPos();
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mouseup", removeListener);
         }
@@ -61,6 +70,29 @@ export default function HomePage({userData, navigate}: HomePageProps) {
 
 
     }, []);
+
+    const handleNewPos = () => {
+        if (!ColorPickerDraggable) return;
+        axios.post("/user/objpos", ObjectPosition, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        })
+    }
+
+    const getUser = () => {
+        axios.get("/user/getuser", {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        }).then((res: AxiosResponse<ExpectedResponseType>) => {
+                if (ColorPickerDraggable) {
+                    ObjectPosition = [res.data.cpx, res.data.cpy];
+                    setObjPos([res.data.cpx, res.data.cpy]);
+                }
+            }
+        )
+    }
 
     useEffect(() => {
         ws?.updateCanvas({
@@ -107,6 +139,11 @@ export default function HomePage({userData, navigate}: HomePageProps) {
         }
     });
 
+    const handleLogout = () => {
+        localStorage.removeItem("jwt");
+        navigate("/");
+    }
+
 
     return (
         <>
@@ -122,6 +159,8 @@ export default function HomePage({userData, navigate}: HomePageProps) {
                     Settings
                 </button>
             </div>
+
+            <button onClick={handleLogout}>Logout</button>
 
             <div id={"color-picker-parent"} style={{
                 "top": objPos[1] - 10,

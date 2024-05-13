@@ -21,8 +21,8 @@ import java.util.List;
 @Entity
 @Table(name = "userdata")
 public class UserData implements UserDetails {
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String username;
     private String password;
@@ -32,6 +32,8 @@ public class UserData implements UserDetails {
     private Role role;
     private String biography;
     private int placedPixels;
+    private int cpx;
+    private int cpy;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

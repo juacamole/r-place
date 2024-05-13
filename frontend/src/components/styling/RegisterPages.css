@@ -1,4 +1,59 @@
 /*todo*/
+@media (min-width: 1025px) and (min-height: 1201px) {
+    .register-tag {
+        text-align: center;
+        z-index: 2;
+        position: fixed;
+        top: 15vw;
+        left: 35vw;
+        right: 35vw;
+        font-size: 5vw;
+        width: 30vw;
+        font-family: "Marker Felt", fantasy;
+    }
+
+    #next-button {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 3vw;
+        text-align: center;
+        top: 25vw;
+        width: 8vw;
+        left: 46vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.7vh;
+    }
+
+    #next-button:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+
+    #next-button2 {
+        z-index: 3;
+        position: fixed;
+        border: black solid 0.15vw;
+        height: 3vw;
+        text-align: center;
+        top: 32.5vw;
+        width: 8vw;
+        left: 46vw;
+        color: black;
+        font-weight: bolder;
+        padding-top: 0.7vh;
+    }
+
+    #next-button2:hover {
+        transition: background-color 200ms;
+        background-color: lightblue;
+
+    }
+}
+
+/*todo*/
 @media (min-width: 1025px) and (max-width: 2000px) and (max-height: 1200px) {
     .register-tag {
         text-align: center;

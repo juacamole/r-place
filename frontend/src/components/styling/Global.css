@@ -13,6 +13,51 @@
 }
 
 /*todo*/
+@media (min-width: 1025px) and (min-height: 1201px) {
+    .logo {
+        position: fixed;
+        z-index: 2;
+        top: 4vw;
+        left: 45vw;
+        width: 10vw;
+        height: 10vw;
+    }
+
+    .circle-design {
+        position: fixed;
+        z-index: 0;
+        width: 100vw;
+        height: 70vw;
+        bottom: -30vh;
+        right: -5vw;
+    }
+
+    .circle-light {
+        background-color: #a6ccff;
+        top: 10vh;
+        left: 10vw;
+        width: 200vw;
+        height: 200vh;
+    }
+
+    .circle-sky {
+        background-color: #3d91ff;
+        top: 20vh;
+        left: 20vw;
+        width: 180vw;
+        height: 180vh;
+    }
+
+    .circle-regular {
+        background-color: #2b63fc;
+        top: 35vh;
+        left: 30vw;
+        width: 160vw;
+        height: 160vh;
+    }
+}
+
+/*todo*/
 @media (min-width: 1025px) and (max-width: 2000px) and (max-height: 1200px) {
     .logo {
         position: fixed;
