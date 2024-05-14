@@ -63,4 +63,9 @@ public class BackendService {
     public boolean checkEMailAdress(AuthenticationRequest request) {
         return urepo.findByEmail(request.getEmail()).isPresent();
     }
+
+    public void addPixel(String token) {
+        String username = jwtService.extractUsername(token);
+        urepo.addPixel(username);
+    }
 }

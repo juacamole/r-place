@@ -2,19 +2,20 @@ import CircleDesign from "../design-components/CircleDesign.tsx";
 import {NavigateFunction} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import Logo from "../../assets/coop place logo.png";
+import Settings from "../../assets/settings-icon.png";
+import Logout from "../../assets/logout-icon.png";
 import {WSService, WSServiceType} from "../../WSService.tsx";
-import {UserDataType} from "../models/model.tsx";
 import axios, {AxiosResponse} from "axios";
-import {ExpectedResponseType} from "./Settings.tsx";
+import {ExpectedResponseType, Role} from "./Settings.tsx";
+import {UserDataType} from "../models/model.tsx";
 
 type HomePageProps = {
-    userData: UserDataType;
     navigate: NavigateFunction;
     ColorPickerDraggable: boolean;
     setColorPickerDraggable: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function HomePage({userData, navigate, ColorPickerDraggable}: HomePageProps) {
+export default function HomePage({navigate, ColorPickerDraggable, setColorPickerDraggable}: HomePageProps) {
     const [ws, setWs] = useState<WSServiceType>();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentColor, setCurrentColor] = useState<string>("#000000");
@@ -22,7 +23,7 @@ export default function HomePage({userData, navigate, ColorPickerDraggable}: Hom
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
     const [consoleTextValue, setConsoleTextValue] = useState<string>("")
     let cursorPos: number[] = [];
-    const [objPos, setObjPos] = useState<number[]>([20, 20]);
+    const [objPos, setObjPos] = useState<number[]>([30, 200]);
     let ObjectPosition: number[] = [];
     const [draggable, setDraggable] = useState<boolean>(false);
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
@@ -34,6 +35,18 @@ export default function HomePage({userData, navigate, ColorPickerDraggable}: Hom
             "canvas": (canvasRef.current).toDataURL()
         })
     };
+
+    const [userData, setUserData] = useState<UserDataType>({
+        "username": "",
+        "password": "",
+        "email": "",
+        "role": Role.USER,
+        "biography": "",
+        "placedPixels": 0,
+        "cpx": 20,
+        "cpy": 20,
+        "cpd": false
+    })
 
 
     useEffect(() => {
@@ -86,10 +99,10 @@ export default function HomePage({userData, navigate, ColorPickerDraggable}: Hom
                 'Authorization': `Bearer ${localStorage.getItem("jwt")}`
             }
         }).then((res: AxiosResponse<ExpectedResponseType>) => {
-                if (ColorPickerDraggable) {
-                    ObjectPosition = [res.data.cpx, res.data.cpy];
-                    setObjPos([res.data.cpx, res.data.cpy]);
-                }
+                setUserData(res.data)
+                setColorPickerDraggable(res.data.cpd);
+                ObjectPosition = [res.data.cpx, res.data.cpy];
+                setObjPos([res.data.cpx, res.data.cpy]);
             }
         )
     }
@@ -152,15 +165,14 @@ export default function HomePage({userData, navigate, ColorPickerDraggable}: Hom
 
             <div id={"user-profile"}>
                 <div id={"username-and-role-display"}>
-                    {userData.username} {userData.role}
+                    {userData.username + ", " + userData.role}
                 </div>
-                <p id={"user-biography"}>{userData.biography}</p>
-                <button id={"user-settings"} onClick={() => navigate("/settings")}>
-                    Settings
-                </button>
+                <textarea id={"biography-display"} data-limit-rows="true" cols={1} rows={2}
+                          defaultValue={userData.biography} disabled={true}/>
+                <img id={"settings-image"} onClick={() => navigate("/settings")} src={Settings} alt={""}/>
+                <img id={"logout-image"} onClick={handleLogout} src={Logout} alt={""}/>
             </div>
 
-            <button onClick={handleLogout}>Logout</button>
 
             <div id={"color-picker-parent"} style={{
                 "top": objPos[1] - 10,
@@ -190,20 +202,18 @@ export default function HomePage({userData, navigate, ColorPickerDraggable}: Hom
                     }
                 }}
             >
-                <div id={"console-frame"}>
-                    <input
-                        id="console"
-                        onChange={(e) => {
-                            setConsoleTextValue(e.target.value)
-                            const parts = e.target.value.replace(/[()]/g, "").split("/");
-                            const parsedValues = parts.map(part => parseInt(part, 10));
-                            if (parsedValues.length === 2 && !isNaN(parsedValues[0]) && !isNaN(parsedValues[1])) {
-                                setConsoleValue(parsedValues);
-                            }
-                        }}
-                        value={consoleTextValue}
-                    />
-                </div>
+                <input
+                    id="console"
+                    onChange={(e) => {
+                        setConsoleTextValue(e.target.value)
+                        const parts = e.target.value.replace(/[()]/g, "").split("/");
+                        const parsedValues = parts.map(part => parseInt(part, 10));
+                        if (parsedValues.length === 2 && !isNaN(parsedValues[0]) && !isNaN(parsedValues[1])) {
+                            setConsoleValue(parsedValues);
+                        }
+                    }}
+                    value={consoleTextValue}
+                />
             </form>
             <canvas
                 ref={canvasRef}

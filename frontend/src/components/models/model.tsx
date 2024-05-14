@@ -9,6 +9,7 @@ export type UserDataType = {
     "placedPixels": number;
     "cpx": number;
     "cpy": number;
+    "cpd": boolean;
 }
 
 export type jwtResponseType = {

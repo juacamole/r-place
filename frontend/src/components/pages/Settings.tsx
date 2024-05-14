@@ -17,13 +17,14 @@ export type ExpectedResponseType = {
     "email": string;
     "role": Role;
     "biography": string;
-    "placedpixels": number;
+    "placedPixels": number;
     "isAccountNonExpired": boolean;
     "isAccountNonLocked": boolean;
     "isCredentialsNonExpired": boolean;
     "isEnabled": boolean;
     "cpx": number;
     "cpy": number;
+    "cpd": boolean;
 }
 
 type SettingsProps = {
@@ -33,6 +34,8 @@ type SettingsProps = {
 
 
 export default function Settings({ColorPickerDraggable, setColorPickerDraggable}: SettingsProps) {
+    const [advancedDel, setAdvancedDel] = useState<boolean>(false)
+    const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
     const [updateStatus, setUpdateStatus] = useState<boolean>(true)
     const [userdata, setUserData] = useState<UserDataType>({
@@ -44,6 +47,7 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
         "placedPixels": 0,
         "cpx": 0,
         "cpy": 0,
+        "cpd": false
     })
 
     useEffect(() => {
@@ -57,22 +61,23 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
                 }
             }
         ).then((res: AxiosResponse<ExpectedResponseType>) => {
+            setColorPickerDraggable(res.data.cpd);
             setUserData({
                 "username": res.data.username,
                 "password": "",
                 "email": res.data.email,
                 "role": res.data.role,
                 "biography": res.data.biography,
-                "placedPixels": res.data.placedpixels,
+                "placedPixels": res.data.placedPixels,
                 "cpx": res.data.cpx,
-                "cpy": res.data.cpy
+                "cpy": res.data.cpy,
+                "cpd": res.data.cpd
             });
         })
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        axios.post("/user/update", userdata, {
+    const handleSubmit = () => {
+        axios.put("/user/update", userdata, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("jwt")}`
             }
@@ -85,7 +90,7 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
             });
     }
 
-    const handleChange = (name: string, value: string, e: React.ChangeEvent) => {
+    const handleChange = (name: string, value: string | boolean, e: React.ChangeEvent) => {
         e.preventDefault();
         setUserData(prevState => ({
             ...prevState,
@@ -97,36 +102,91 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
         navigate("/home");
     }
 
+    const handleDeleteUser = () => {
+        setAdvancedDel(true);
+    }
+
+    const handleDeleteUserAccepted = () => {
+        axios.post("/user/testpw", password, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        }).then((res) => {
+            if (res.data) {
+                axios.delete("/user/delete", {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                    }
+                }).then(() => {
+                    localStorage.removeItem("jwt");
+                    navigate("/");
+                })
+            }
+        })
+    }
+
     return <>
         <img src={Logo} className={"logo"} alt={""}/>
         <div id={"setting-main-panel"}>
-            <form onSubmit={handleSubmit}>
-                <input name={"username"} maxLength={16} id={"edit-username"} disabled={true}
-                       placeholder={"new username"}
-                       value={userdata.username}
-                       onChange={(e) => {
-                           handleChange(e.target.name, e.target.value, e)
-                       }}/>
-                <input name={"email"} id={"email-display"} placeholder={"email"} type={"email"} disabled={true}
-                       value={userdata.email}
-                       onChange={(e) => {
-                           handleChange(e.target.name, e.target.value, e)
-                       }}/>
-                <textarea maxLength={40} name={"biography"} id={"edit-biography"} placeholder={"edit biography"}
-                          defaultValue={userdata.biography}
-                          onChange={(e) => {
-                              handleChange(e.target.name, e.target.value, e)
-                          }}/>
-                <input disabled={true} id={"placedpixel-display"}
-                       value={"placed Pixels: " + userdata.placedPixels}/>
-                <button id={"save-changes"} type={"submit"}>Save Changes</button>
-            </form>
-            <button id={"back-button"} onClick={handleClick}>Back</button>
-            <input type={"checkbox"} checked={ColorPickerDraggable} onChange={() => {
-                setColorPickerDraggable(!ColorPickerDraggable);
-            }}/>
-            {!updateStatus && <p id={"error-message"}>Update Failed</p>}
+            <div id={"setting-sub-panel"}>
+                <form onSubmit={handleSubmit}>
+                    <input name={"username"} maxLength={16} id={"edit-username"} disabled={true}
+                           placeholder={"new username"}
+                           value={userdata.username}
+                           onChange={(e) => {
+                               handleChange(e.target.name, e.target.value, e)
+                           }}/>
+                    <input name={"email"} id={"email-display"} placeholder={"email"} type={"email"} disabled={true}
+                           value={userdata.email}
+                           onChange={(e) => {
+                               handleChange(e.target.name, e.target.value, e)
+                           }}/>
+                    <textarea maxLength={30} name={"biography"} id={"edit-biography"} data-limit-rows="true" cols={1}
+                              rows={2} placeholder={"edit biography"}
+                              defaultValue={userdata.biography}
+                              onChange={(e) => {
+                                  handleChange(e.target.name, e.target.value, e)
+                              }}/>
+                    <input disabled={true} id={"placedpixel-display"}
+                           value={"placed Pixels: " + userdata.placedPixels}/>
+                    <button id={"save-changes"} type={"submit"}>Save Changes</button>
+                </form>
+                <button id={"back-button"} onClick={handleClick}>Back</button>
+                <div id={"cp-draggable-switch-parent"}>
+                    <label className={"switch"}>
+                        <input type={"checkbox"} checked={ColorPickerDraggable} onChange={() => {
+                            setUserData(prevState => ({
+                                ...prevState,
+                                "cpd": !ColorPickerDraggable
+                            }))
+                            setColorPickerDraggable(!ColorPickerDraggable);
+                        }}/>
+                        <span className={"slider round"}></span>
+                    </label>
+                    <span id={"cp-draggable-span"}>Color Picker Draggable</span>
+                </div>
+                {!updateStatus && <p id={"error-message"}>Update Failed</p>}
+                <button id={"delete-user-button"} onClick={(e) => {
+                    e.preventDefault();
+                    handleDeleteUser();
+                }}>Delete user
+                </button>
+            </div>
         </div>
+        {advancedDel && <div id={"delete-confirm-panel"}>
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                handleDeleteUserAccepted()
+            }}>
+                <input type={"password"} placeholder={"password"} onChange={(e) => {
+                    setPassword(e.target.value);
+                }}/>
+            </form>
+            <button onClick={() => {
+                setAdvancedDel(false)
+            }}>x
+            </button>
+        </div>}
         <CircleDesign></CircleDesign>
     </>
 }

@@ -33,6 +33,7 @@
     }
 
     .circle-light {
+        z-index: 0;
         background-color: #a6ccff;
         top: 10vh;
         left: 10vw;
@@ -41,6 +42,7 @@
     }
 
     .circle-sky {
+        z-index: 0;
         background-color: #3d91ff;
         top: 20vh;
         left: 20vw;
@@ -49,6 +51,7 @@
     }
 
     .circle-regular {
+        z-index: 0;
         background-color: #2b63fc;
         top: 35vh;
         left: 30vw;

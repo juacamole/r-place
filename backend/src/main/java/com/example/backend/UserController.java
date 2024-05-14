@@ -21,7 +21,15 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update")
+    @PostMapping("/testpw")
+    public Boolean testPw(@RequestBody String pw, @RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            return service.testPw(pw, token);
+        } else return false;
+    }
+
+    @PutMapping("/update")
     public Boolean updateUser(@RequestBody UserData user) {
         return service.updateUser(user);
     }
@@ -33,4 +41,14 @@ public class UserController {
             service.updateObjPos(token, objPos);
         }
     }
+
+    @DeleteMapping("/delete")
+    public void deleteUser(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            service.deleteUser(token);
+        }
+    }
+
+
 }

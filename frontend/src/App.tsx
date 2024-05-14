@@ -46,7 +46,8 @@ function App() {
         "biography": "",
         "placedPixels": 0,
         "cpx": 20,
-        "cpy": 20
+        "cpy": 20,
+        "cpd": false
     })
 
     return (
@@ -55,7 +56,7 @@ function App() {
                 children={<Settings ColorPickerDraggable={ColorPickerDraggable}
                                     setColorPickerDraggable={setColorPickerDraggable}/>}/>}/>
             <Route path={"/home"} element={<ProtectedRoute
-                children={<HomePage navigate={navigate} userData={userData} ColorPickerDraggable={ColorPickerDraggable}
+                children={<HomePage navigate={navigate} ColorPickerDraggable={ColorPickerDraggable}
                                     setColorPickerDraggable={setColorPickerDraggable}/>}/>}/>
             <Route path={"/"} element={<LoginPage navigate={navigate}/>}/>
             <Route path={"/register"}

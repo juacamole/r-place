@@ -24,7 +24,10 @@ public class UserData implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
     private String password;
     private String email;
 
@@ -34,6 +37,7 @@ public class UserData implements UserDetails {
     private int placedPixels;
     private int cpx;
     private int cpy;
+    private boolean cpd;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

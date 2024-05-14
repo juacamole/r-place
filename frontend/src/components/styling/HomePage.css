@@ -43,12 +43,6 @@
         height: 2.3vh;
         right: 1vw;
     }
-
-    #console-frame {
-        z-index: 3;
-        background-color: white;
-        border: black solid 0.1vw;
-    }
 }
 
 /*todo*/
@@ -60,6 +54,7 @@
         height: 6vh;
         background-color: lightgreen;
         border: black solid 0.1vw;
+        border-radius: 1vw;
     }
 
     #color-picker {
@@ -101,6 +96,57 @@
         z-index: 3;
         background-color: white;
         border: black solid 0.1vw;
+    }
+
+    #user-profile {
+        z-index: 3;
+        position: fixed;
+        top: 2vh;
+        width: 7vw;
+        left: 1vw;
+        height: 15vh;
+        border: black solid 1px;
+        border-radius: 0.5vw;
+    }
+
+    #user-biography {
+        position: fixed;
+        top: 1vh;
+        left: 1vw;
+    }
+
+    #biography-display {
+        resize: none;
+        overflow: hidden;
+        position: fixed;
+        width: 6vw;
+        left: 1.5vw;
+        top: 4.5vh;
+        border-radius: 0.5vw;
+    }
+
+    #username-and-role-display {
+        position: fixed;
+        left: 2.5vw;
+    }
+
+
+    #settings-image {
+        cursor: pointer;
+        position: fixed;
+        width: 3vw;
+        height: 3vw;
+        left: 1.4vw;
+        top: 11vh;
+    }
+
+    #logout-image {
+        cursor: pointer;
+        position: fixed;
+        width: 3vw;
+        height: 3vw;
+        left: 4.4vw;
+        top: 11vh;
     }
 }
 

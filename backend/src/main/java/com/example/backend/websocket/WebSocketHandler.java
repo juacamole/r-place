@@ -2,6 +2,7 @@ package com.example.backend.websocket;
 
 import com.example.backend.BackendService;
 import com.example.backend.CanvasData;
+import com.example.backend.UserService;
 import com.example.backend.jwt.config.JWTService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,11 +24,13 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
     private final BackendService service;
     private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
-    public WebSocketHandler(BackendService service, JWTService jwtService, UserDetailsService userDetailsService) {
+    public WebSocketHandler(BackendService service, JWTService jwtService, UserDetailsService userDetailsService, UserService userService) {
         this.service = service;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
 
     @Override
@@ -44,6 +47,8 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(decodedMessage.getToken(), userDetails) && decodedMessage.getToken() != null && !decodedMessage.getCanvas().isEmpty()) {
                 CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
+                service.addPixel(decodedMessage.getToken());
+                userService.refreshCooldown(decodedMessage.getToken());
                 sendCanvasToAll(newestCanvas);
             } else {
                 CanvasData newestCanvas = service.getCanvas();
