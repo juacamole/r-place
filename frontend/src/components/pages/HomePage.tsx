@@ -26,14 +26,20 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
     const [objPos, setObjPos] = useState<number[]>([30, 200]);
     let ObjectPosition: number[] = [];
     const [draggable, setDraggable] = useState<boolean>(false);
+    const [cooldown, setCooldown] = useState<number>(15);
+    const defaultCooldown: number = 15;
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
+        if (cooldown > 0 && userData.role == Role.USER) {
+            return;
+        }
+        setCooldown(defaultCooldown);
         const pixelSize = scale;
         ctx.fillStyle = currentColor;
         ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
         canvasRef.current != null && ws && ws.updateCanvas({
             "token": localStorage.getItem("jwt") + "".toString(),
             "canvas": (canvasRef.current).toDataURL()
-        })
+        });
     };
 
     const [userData, setUserData] = useState<UserDataType>({
@@ -48,8 +54,18 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
         "cpd": false
     })
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCooldown(prevCooldown => {
+                return prevCooldown > 0 ? prevCooldown - 1 : 0;
+            });
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
 
     useEffect(() => {
+        getCurrentCooldown();
         setWs(WSService());
         getUser();
 
@@ -61,6 +77,7 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
             if (!ColorPickerDraggable) return;
             // eslint-disable-next-line react-hooks/exhaustive-deps
             cursorPos = [e.pageX, e.pageY];
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             ObjectPosition = cursorPos;
             setObjPos(cursorPos)
         }
@@ -90,7 +107,7 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("jwt")}`
             }
-        })
+        }).then()
     }
 
     const getUser = () => {
@@ -157,6 +174,17 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
         navigate("/");
     }
 
+    const getCurrentCooldown = () => {
+        axios.get("/user/cooldown", {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        }).then((res: AxiosResponse<number>) => {
+                setCooldown(res.data);
+            }
+        )
+    }
+
 
     return (
         <>
@@ -172,6 +200,8 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
                 <img id={"settings-image"} onClick={() => navigate("/settings")} src={Settings} alt={""}/>
                 <img id={"logout-image"} onClick={handleLogout} src={Logout} alt={""}/>
             </div>
+
+            <p>{cooldown}</p>
 
 
             <div id={"color-picker-parent"} style={{

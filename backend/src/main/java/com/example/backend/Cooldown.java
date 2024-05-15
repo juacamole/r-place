@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Cooldown {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "lastPlacedPixel")
     private long lastPlacedPixel;
 
-    @OneToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private UserData userId;
+    private long userId;
 }

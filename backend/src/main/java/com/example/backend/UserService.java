@@ -29,10 +29,10 @@ public class UserService {
                     existingUser.setUsername(user.getUsername());
                     existingUser.setBiography(user.getBiography());
                     existingUser.setCpd(user.isCpd());
-                    repo.save(existingUser); // Saves the updated entity back to the database
-                    return true; // Successfully updated
+                    repo.save(existingUser);
+                    return true;
                 })
-                .orElse(false); // Returns false if the user does not exist
+                .orElse(false);
     }
 
     @Transactional
@@ -66,10 +66,30 @@ public class UserService {
         String username = jwtService.extractUsername(token);
         Optional<UserData> foundUser = repo.findByUsername(username);
         if (foundUser.isEmpty()) return;
-        Optional<Cooldown> foundCooldown = cooldownRepository.findCooldownByUserId(foundUser.get());
+        Optional<Cooldown> foundCooldown = cooldownRepository.findCooldownByUserId(foundUser.get().getId());
         if (foundCooldown.isEmpty()) return;
         Cooldown definitelyAValidCooldown = foundCooldown.get();
         definitelyAValidCooldown.setLastPlacedPixel(System.currentTimeMillis());
         cooldownRepository.save(definitelyAValidCooldown);
+    }
+
+    public long getCooldownByUser(String token) {
+        String username = jwtService.extractUsername(token);
+        Optional<UserData> foundUser = repo.findByUsername(username);
+        if (foundUser.isEmpty()) return -1;
+        Optional<Cooldown> foundCooldown = cooldownRepository.findCooldownByUserId(foundUser.get().getId());
+        return foundCooldown.map(Cooldown::getLastPlacedPixel).orElse(-1L);
+    }
+
+    public long getCooldownInSecondsByUser(String token) {
+        String username = jwtService.extractUsername(token);
+        Optional<UserData> foundUser = repo.findByUsername(username);
+        if (foundUser.isEmpty()) return -1;
+        Optional<Cooldown> foundCooldown = cooldownRepository.findCooldownByUserId(foundUser.get().getId());
+        long cd = foundCooldown.map(cooldown -> ((cooldown.getLastPlacedPixel() - System.currentTimeMillis()) / 1000) + 15).orElse(-1L);
+        if (cd < 0) {
+            cd = 0;
+        }
+        return cd;
     }
 }

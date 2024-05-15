@@ -1,8 +1,6 @@
 package com.example.backend.websocket;
 
-import com.example.backend.BackendService;
-import com.example.backend.CanvasData;
-import com.example.backend.UserService;
+import com.example.backend.*;
 import com.example.backend.jwt.config.JWTService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -34,7 +33,7 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) {
         sessions.add(session);
     }
 
@@ -46,24 +45,35 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
         if (username != null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(decodedMessage.getToken(), userDetails) && decodedMessage.getToken() != null && !decodedMessage.getCanvas().isEmpty()) {
-                CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
-                service.addPixel(decodedMessage.getToken());
-                userService.refreshCooldown(decodedMessage.getToken());
-                sendCanvasToAll(newestCanvas);
-            } else {
-                CanvasData newestCanvas = service.getCanvas();
-                sendCanvasToAll(newestCanvas);
-            }
+                Optional<UserData> user = userService.getUser(decodedMessage.getToken());
+                if (user.isPresent()) {
+                    if (user.get().getRole() == Role.ADMIN) {
+                        CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
+                        service.addPixel(decodedMessage.getToken());
+                        sendCanvasToAll(newestCanvas);
+                    } else {
+                        long cooldownInMiliseconds = 14000;
+                        if (userService.getCooldownByUser(decodedMessage.getToken()) + cooldownInMiliseconds <= System.currentTimeMillis()) {
+                            CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
+                            service.addPixel(decodedMessage.getToken());
+                            userService.refreshCooldown(decodedMessage.getToken());
+                            sendCanvasToAll(newestCanvas);
+                        } else {
+                            sendCanvasToAll(service.getCanvas());
+                        }
+                    }
+                } else sendCanvasToAll(service.getCanvas());
+            } else sendCanvasToAll(service.getCanvas());
         }
     }
 
     @Override
-    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+    public void handleTransportError(WebSocketSession session, Throwable exception) {
 
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) {
 
         sessions.remove(session);
     }

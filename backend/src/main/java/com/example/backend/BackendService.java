@@ -14,21 +14,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BackendService {
 
-    private final UserRepository urepo;
-    private final CanvasRepository crepo;
+    private final UserRepository userRepo;
+    private final CanvasRepository canvasRepo;
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
-
+    private final CooldownRepository cooldownRepository;
 
     public CanvasData updateCanvas(CanvasData canvasEntity) {
         canvasEntity.setId(1);
-        crepo.deleteById(1);
-        return crepo.save(canvasEntity);
+        canvasRepo.deleteById(1);
+        return canvasRepo.save(canvasEntity);
     }
 
     public CanvasData getCanvas() {
-        return crepo.findCanvas();
+        return canvasRepo.findCanvas();
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -38,8 +38,12 @@ public class BackendService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-        urepo.save(user);
+        userRepo.save(user);
         var jtwToken = jwtService.generateToken(user);
+        cooldownRepository.save(Cooldown.builder()
+                .lastPlacedPixel(0)
+                .userId(user.getId())
+                .build());
         return AuthenticationResponse.builder()
                 .token(jtwToken)
                 .build();
@@ -52,7 +56,7 @@ public class BackendService {
                         request.getPassword()
                 )
         );
-        var user = urepo.findByUsername(request.getUsername())
+        var user = userRepo.findByUsername(request.getUsername())
                 .orElseThrow();
         var jtwToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -61,11 +65,11 @@ public class BackendService {
     }
 
     public boolean checkEMailAdress(AuthenticationRequest request) {
-        return urepo.findByEmail(request.getEmail()).isPresent();
+        return userRepo.findByEmail(request.getEmail()).isPresent();
     }
 
     public void addPixel(String token) {
         String username = jwtService.extractUsername(token);
-        urepo.addPixel(username);
+        userRepo.addPixel(username);
     }
 }

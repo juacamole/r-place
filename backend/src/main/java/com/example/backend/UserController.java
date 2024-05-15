@@ -50,5 +50,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/cooldown")
+    public long getCooldownForUser(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            return service.getCooldownInSecondsByUser(token);
+        } else return 999;
+    }
+
 
 }
