@@ -2,7 +2,7 @@ import CircleDesign from "../design-components/CircleDesign.tsx";
 import Logo from "../../assets/coop place logo.png";
 import React, {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {UserDataType} from "../models/model.tsx";
+import {jwtResponseType, UserDataType} from "../models/model.tsx";
 import {useNavigate} from "react-router-dom";
 
 export enum Role {
@@ -82,12 +82,12 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
                 'Authorization': `Bearer ${localStorage.getItem("jwt")}`
             }
         })
-            .then((res: AxiosResponse<boolean>) => {
-                setUpdateStatus(res.data);
-                if (res.data) {
-                    navigate("/home")
-                }
-            });
+            .then((res: AxiosResponse<jwtResponseType>) => {
+                /*localStorage.setItem("jwt", res.data.token)*/
+                console.log(res.data.token)
+            }).catch(() => {
+            setUpdateStatus(false)
+        });
     }
 
     const handleChange = (name: string, value: string | boolean, e: React.ChangeEvent) => {

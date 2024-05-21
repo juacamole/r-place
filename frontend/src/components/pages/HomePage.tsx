@@ -89,7 +89,6 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
                 setColorPickerDraggable(res.data.cpd);
                 ObjectPosition = [res.data.cpx, res.data.cpy];
                 setObjPos([res.data.cpx, res.data.cpy]);
-                console.log("response " + res.data.cpd)
                 if (ColorPickerDraggable == res.data.cpd) {
                     setupEventListeners();
                 }
@@ -98,9 +97,6 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
     }
 
     const setupEventListeners = () => {
-
-        console.log(ColorPickerDraggable)
-
         const dragBtn = document.querySelector("#color-picker-parent");
         if (!dragBtn) return;
 
