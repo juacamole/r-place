@@ -5,10 +5,7 @@ import com.example.backend.jwt.auth.AuthenticationResponse;
 import com.example.backend.jwt.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -36,4 +33,16 @@ public class BackendController {
     public boolean checkEMailAdress(@RequestBody AuthenticationRequest request) {
         return service.checkEMailAdress(request);
     }
+
+    @GetMapping("/checktokenexpired")
+    public boolean checkTokenExpired(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            return service.checkTokenExpired(token);
+        } else {
+            return true;
+        }
+    }
+
+
 }

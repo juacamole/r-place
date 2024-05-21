@@ -72,4 +72,8 @@ public class BackendService {
         String username = jwtService.extractUsername(token);
         userRepo.addPixel(username);
     }
+
+    public boolean checkTokenExpired(String token) {
+        return jwtService.isTokenExpired(token);
+    }
 }
