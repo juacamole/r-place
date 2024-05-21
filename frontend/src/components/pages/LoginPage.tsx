@@ -76,6 +76,9 @@ export default function LoginPage({navigate}: LoginPageProps) {
             }}/>
             <button id={"login-button"} type={"submit"}>Login</button>
         </form>
+        <div id={"switch-to-register-button"}/>
+        <div id={"switch-to-register-button-hitbox"} onClick={() => navigate("/register")}/>
+        <p id={"switch-to-register-button-tag"}>Register</p>
         <CircleDesign/>
     </>
 }

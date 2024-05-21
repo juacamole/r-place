@@ -23,7 +23,7 @@ export default function RegisterPage({setUserData, userData, navigate}: Register
     }
 
     return <div className={"background"}>
-        <img src={Logo} className={"logo"}/>
+        <img src={Logo} className={"logo"} alt={""}/>
         <div className={"register-tag"}>Register</div>
         <form onSubmit={(e) => {
             e.preventDefault();
@@ -43,6 +43,9 @@ export default function RegisterPage({setUserData, userData, navigate}: Register
             }}/>
             <button id={"next-button"} type={"submit"}>Next</button>
         </form>
+        <div id={"switch-to-login-button"}/>
+        <p id={"switch-to-login-button-tag"}>Login</p>
+        <div id={"switch-to-login-button-hitbox"} onClick={() => navigate("/")}></div>
         <CircleDesign/>
     </div>
 

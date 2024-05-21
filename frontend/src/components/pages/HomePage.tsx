@@ -68,7 +68,38 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
         getCurrentCooldown();
         setWs(WSService());
         getUser();
+    }, []);
 
+    const handleNewPos = () => {
+        if (!ColorPickerDraggable) return;
+        axios.post("/user/objpos", ObjectPosition, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        }).then()
+    }
+
+    const getUser = () => {
+        axios.get("/user/getuser", {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        }).then((res: AxiosResponse<ExpectedResponseType>) => {
+                setUserData(res.data)
+                setColorPickerDraggable(res.data.cpd);
+                ObjectPosition = [res.data.cpx, res.data.cpy];
+                setObjPos([res.data.cpx, res.data.cpy]);
+                console.log("response " + res.data.cpd)
+                if (ColorPickerDraggable == res.data.cpd) {
+                    setupEventListeners();
+                }
+            }
+        )
+    }
+
+    const setupEventListeners = () => {
+
+        console.log(ColorPickerDraggable)
 
         const dragBtn = document.querySelector("#color-picker-parent");
         if (!dragBtn) return;
@@ -99,29 +130,6 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
         dragBtn.addEventListener("mousedown", registerMoveListener);
 
 
-    }, []);
-
-    const handleNewPos = () => {
-        if (!ColorPickerDraggable) return;
-        axios.post("/user/objpos", ObjectPosition, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
-            }
-        }).then()
-    }
-
-    const getUser = () => {
-        axios.get("/user/getuser", {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
-            }
-        }).then((res: AxiosResponse<ExpectedResponseType>) => {
-                setUserData(res.data)
-                setColorPickerDraggable(res.data.cpd);
-                ObjectPosition = [res.data.cpx, res.data.cpy];
-                setObjPos([res.data.cpx, res.data.cpy]);
-            }
-        )
     }
 
     useEffect(() => {
@@ -201,7 +209,7 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
                 <img id={"logout-image"} onClick={handleLogout} src={Logout} alt={""}/>
             </div>
 
-            <p>{cooldown}</p>
+            {userData.role == Role.USER && <div id={"cooldown-counter"}>Cooldown: {cooldown}</div>}
 
 
             <div id={"color-picker-parent"} style={{
@@ -232,7 +240,7 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
                     }
                 }}
             >
-                <input
+                {userData.role == Role.ADMIN && <input
                     id="console"
                     onChange={(e) => {
                         setConsoleTextValue(e.target.value)
@@ -243,7 +251,7 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
                         }
                     }}
                     value={consoleTextValue}
-                />
+                />}
             </form>
             <canvas
                 ref={canvasRef}

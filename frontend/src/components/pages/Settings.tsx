@@ -129,7 +129,10 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
         <img src={Logo} className={"logo"} alt={""}/>
         <div id={"setting-main-panel"}>
             <div id={"setting-sub-panel"}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit()
+                }}>
                     <input name={"username"} maxLength={16} id={"edit-username"} disabled={true}
                            placeholder={"new username"}
                            value={userdata.username}

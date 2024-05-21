@@ -53,7 +53,7 @@
     }
 }
 
-/*todo*/
+/*todo default desktop*/
 @media (min-width: 1025px) and (max-width: 2000px) and (max-height: 1200px) {
     .register-tag {
         text-align: center;
@@ -78,7 +78,7 @@
         left: 46vw;
         color: black;
         font-weight: bolder;
-        padding-top: 0.7vh;
+        border-radius: 0.3vw;
     }
 
     #next-button:hover {
@@ -98,13 +98,57 @@
         left: 46vw;
         color: black;
         font-weight: bolder;
-        padding-top: 0.7vh;
+        border-radius: 0.3vw;
     }
 
     #next-button2:hover {
         transition: background-color 200ms;
         background-color: lightblue;
 
+    }
+
+    #switch-to-login-button {
+        border: black outset 0.125vw;
+        box-shadow: black 0.2vw 0.2vw 2vw;
+        position: fixed;
+        z-index: 2;
+        top: 4vh;
+        left: 2vw;
+        transform: rotate(45deg);
+        width: 5vw;
+        height: 5vw;
+        background-color: #a6ccff;
+        color: black;
+        font-weight: bolder;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #switch-to-login-button-hitbox:hover {
+        transition: background-color 200ms;
+        background-color: rgba(147, 182, 230, 50%);
+    }
+
+    #switch-to-login-button-hitbox {
+        position: fixed;
+        z-index: 4;
+        cursor: pointer;
+        width: 5vw;
+        height: 5vw;
+        transform: rotate(45deg);
+        top: 4vh;
+        left: 2vw;
+    }
+
+
+    #switch-to-login-button-tag {
+        position: fixed;
+        z-index: 2;
+        top: 7vh;
+        left: 3.4vw;
+        color: black;
+        font-weight: bolder;
     }
 }
 

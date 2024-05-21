@@ -148,6 +148,19 @@
         left: 4.4vw;
         top: 11vh;
     }
+
+    #cooldown-counter {
+        position: fixed;
+        height: 2vw;
+        width: 6vw;
+        border: black solid 0.075vw;
+        text-align: center;
+        padding-top: 0.2vw;
+        background-color: #0cf7c8;
+        border-radius: 0.5vw;
+        top: 20vh;
+        left: 2vw;
+    }
 }
 
 /*todo*/
