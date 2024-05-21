@@ -1,0 +1,19 @@
+.main-panel {
+    background-color: white;
+    height: 30vh;
+    width: 40vw;
+    border: black outset 0.125vw;
+    border-radius: 1vw;
+    position: fixed;
+    z-index: 3;
+    top: 30vh;
+    left: 30vw;
+    text-align: center;
+    padding-top: 2vh;
+    color: black;
+    font-weight: bolder;
+}
+
+.return-paragraph {
+    margin-top: 10vh;
+}
