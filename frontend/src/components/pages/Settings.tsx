@@ -83,8 +83,9 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
             }
         })
             .then((res: AxiosResponse<jwtResponseType>) => {
-                /*localStorage.setItem("jwt", res.data.token)*/
+                localStorage.setItem("jwt", res.data.token)
                 console.log(res.data.token)
+                navigate("/home");
             }).catch(() => {
             setUpdateStatus(false)
         });
@@ -133,7 +134,7 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
                     e.preventDefault();
                     handleSubmit()
                 }}>
-                    <input name={"username"} maxLength={16} id={"edit-username"} disabled={true}
+                    <input name={"username"} maxLength={16} id={"edit-username"}
                            placeholder={"new username"}
                            value={userdata.username}
                            onChange={(e) => {

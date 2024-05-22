@@ -1,11 +1,13 @@
 package com.example.backend;
 
+import com.example.backend.jwt.auth.AuthenticationResponse;
 import com.example.backend.jwt.config.JWTService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,16 +25,26 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean updateUser(UserData user) {
-        return repo.findByEmail(user.getEmail())
-                .map(existingUser -> {
+    public AuthenticationResponse updateUser(UserData user) {
+        Optional<List<UserData>> foundUsers = repo.findAllByUsername(user.getUsername());
+        for (UserData u : foundUsers.get()
+        ) {
+            if (!u.getEmail().equals(user.getEmail())) throw new RuntimeException("NonUniqueUsernameException");
+        }
+        Optional<UserData> foundUser = repo.findByEmail(user.getEmail());
+        foundUser.map(existingUser -> {
                     existingUser.setUsername(user.getUsername());
                     existingUser.setBiography(user.getBiography());
                     existingUser.setCpd(user.isCpd());
                     repo.save(existingUser);
-                    return true;
-                })
-                .orElse(false);
+                    return new AuthenticationResponse("if ya get this, its an error... (idk why)");
+                }
+        );
+        var jtwToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jtwToken)
+                .build();
+
     }
 
     @Transactional

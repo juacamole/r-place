@@ -22,7 +22,8 @@ import java.util.List;
 @Table(name = "userdata")
 public class UserData implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crazy_ahh_seq")
+    @SequenceGenerator(name = "crazy_ahh_seq", sequenceName = "crazy_ahh_sequence", allocationSize = 1, initialValue = 2)
     private int id;
 
     @Column(unique = true, nullable = false)
@@ -37,7 +38,7 @@ public class UserData implements UserDetails {
     private int placedPixels;
     private int cpx;
     private int cpy;
-    private boolean cpd;
+    private boolean cpd = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

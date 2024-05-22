@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Cooldown {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "crazy_ahh_seq")
+    @SequenceGenerator(name = "crazy_ahh_seq", sequenceName = "crazy_ahh_sequence", allocationSize = 1, initialValue = 2)
     private int id;
 
     @Column(name = "lastPlacedPixel")

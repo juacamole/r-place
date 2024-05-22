@@ -1,9 +1,9 @@
 import Logo from "../../assets/coop place logo.png";
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosResponse, HttpStatusCode} from "axios";
 import CircleDesign from "../design-components/CircleDesign.tsx";
 import {jwtResponseType, UserDataType} from "../models/model.tsx";
 import {NavigateFunction} from "react-router-dom";
-import React from "react";
+import React, {useEffect} from "react";
 
 type RegisterPage2Props = {
     userData: UserDataType
@@ -14,6 +14,10 @@ type RegisterPage2Props = {
 export default function RegisterPage2({setUserData, userData, navigate}: RegisterPage2Props) {
 
 
+    useEffect(() => {
+        if (!userData.email) navigate("/register");
+    }, []);
+
     const saveUserDataOnChange = (name: string, value: string) => {
         const newUserData = {
             ...userData,
@@ -23,13 +27,24 @@ export default function RegisterPage2({setUserData, userData, navigate}: Registe
     }
 
     return <>
-        <img src={Logo} className={"logo"}/>
+        <img src={Logo} className={"logo"} alt={""}/>
         <div className={"register-tag"}>Register</div>
         <form onSubmit={(e) => {
             axios.post("/place/register",
                 userData).then((u: AxiosResponse<jwtResponseType>) => {
-                localStorage.setItem('jwt', u.data.token);
-                navigate("/home");
+                if (!u.data.token) {
+                    alert("username already taken")
+                    return;
+                } else {
+                    localStorage.setItem('jwt', u.data.token);
+                    navigate("/home");
+                }
+            }).catch(reason => {
+                console.log(reason)
+                if (reason.type == HttpStatusCode.Forbidden) {
+                    alert("username already taken")
+                }
+                alert("An error occured, try again later or try different credentials.")
             });
             e.preventDefault();
         }}>

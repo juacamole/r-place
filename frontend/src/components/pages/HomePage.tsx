@@ -25,7 +25,7 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
     let cursorPos: number[] = [];
     const [objPos, setObjPos] = useState<number[]>([30, 200]);
     let ObjectPosition: number[] = [];
-    const [draggable, setDraggable] = useState<boolean>(false);
+    const [draggable, setDraggable] = useState<boolean>(true);
     const [cooldown, setCooldown] = useState<number>(15);
     const defaultCooldown: number = 15;
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {

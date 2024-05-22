@@ -32,21 +32,30 @@ public class BackendService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = UserData.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .build();
-        userRepo.save(user);
-        var jtwToken = jwtService.generateToken(user);
-        cooldownRepository.save(Cooldown.builder()
-                .lastPlacedPixel(0)
-                .userId(user.getId())
-                .build());
-        return AuthenticationResponse.builder()
-                .token(jtwToken)
-                .build();
+        try {
+            var user = UserData.builder()
+                    .username(request.getUsername())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.USER)
+                    .cpd(true)
+                    .cpx(174)
+                    .cpy(33)
+                    .build();
+
+            userRepo.save(user);
+            var jtwToken = jwtService.generateToken(user);
+            cooldownRepository.save(Cooldown.builder()
+                    .lastPlacedPixel(0)
+                    .userId(user.getId())
+                    .build());
+            return AuthenticationResponse.builder()
+                    .token(jtwToken)
+                    .build();
+        } catch (Exception e) {
+            System.out.println("an error occured: " + e.getMessage());
+            return null;
+        }
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

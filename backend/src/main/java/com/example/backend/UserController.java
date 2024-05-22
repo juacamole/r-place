@@ -1,5 +1,6 @@
 package com.example.backend;
 
+import com.example.backend.jwt.auth.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public Boolean updateUser(@RequestBody UserData user) {
+    public AuthenticationResponse updateUser(@RequestBody UserData user) {
         return service.updateUser(user);
     }
 
