@@ -3,10 +3,8 @@ package com.example.backend;
 import com.example.backend.jwt.auth.AuthenticationRequest;
 import com.example.backend.jwt.config.JWTService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 class MockingTests {
 
-    @Mock
+    @MockBean
     private static UserRepository userRepo;
 
     @MockBean
@@ -39,24 +37,14 @@ class MockingTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @BeforeAll
-    public static void handleTestUser() {
-        Optional<UserData> u = userRepo.findByUsername("test");
-        if (u.isPresent()) return;
-        UserData newUser = (UserData.builder()
-                .id(0)
-                .username("test")
-                .password("test")
-                .email("test")
-                .build());
-        userRepo.save(newUser);
-    }
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
         when(jwtService.generateToken(any(UserDetails.class))).thenReturn("test");
+        when(userRepo.findByUsername("test")).thenReturn(Optional.of(new UserData(0, "test", "$2a$10$I66PonpAZrJ0332SaUwVVO3geeOD19JOt.5PkD/Mbri7UjmnBgCTu", "test", Role.USER, "", 0, 0, 0, false)));
     }
+
 
     @Test
     void authenticateUserThatAlreadyExists_shouldReturnValidToken_whenUserWithNameEmailAndPassword_Test_Exists() throws Exception {
