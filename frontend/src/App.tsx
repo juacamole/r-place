@@ -8,7 +8,7 @@ import './components/styling/ErrorPages.css'
 
 import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import RegisterPage from "./components/pages/RegisterPage.tsx";
-import {useState} from "react";
+import React, {useState} from "react";
 import RegisterPage2 from "./components/pages/RegisterPage2.tsx";
 import LoginPage from "./components/pages/LoginPage.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,13 +26,14 @@ export type MessageType = {
 
 
 export const ProtectedRoute = ({children}: {
-    children: JSX.Element;
+    children: React.JSX.Element;
 }) => {
     const jwt = localStorage.getItem('jwt');
     const navigate = useNavigate()
     if (!jwt) {
         return <Navigate to="/403" replace/>;
     } else {
+        // noinspection ALL
         axios.get("place/checktokenexpired", {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("jwt")}`

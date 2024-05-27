@@ -3,6 +3,7 @@ package com.example.backend.websocket;
 import com.example.backend.*;
 import com.example.backend.jwt.config.JWTService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -33,12 +34,12 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) {
+    public void afterConnectionEstablished(@NonNull WebSocketSession session) {
         sessions.add(session);
     }
 
     @Override
-    public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+    public void handleMessage(@NonNull WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         Message decodedMessage = mapper.readValue(message.getPayload().toString(), Message.class);
         String username = jwtService.extractUsername(decodedMessage.getToken());
@@ -68,12 +69,12 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
     }
 
     @Override
-    public void handleTransportError(WebSocketSession session, Throwable exception) {
+    public void handleTransportError(@NonNull WebSocketSession session, @NonNull Throwable exception) {
 
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) {
+    public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus closeStatus) {
 
         sessions.remove(session);
     }

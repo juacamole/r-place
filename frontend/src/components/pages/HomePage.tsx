@@ -12,28 +12,30 @@ import {UserDataType} from "../models/model.tsx";
 type HomePageProps = {
     navigate: NavigateFunction;
     ColorPickerDraggable: boolean;
-    setColorPickerDraggable: React.Dispatch<React.SetStateAction<boolean>>;
+    setColorPickerDraggable: (state: boolean) => void;
 };
+const SCALE = 10
+const DEFAULT_COOLDOWN = 15;
+const DEFAULT_COLOR = "#000000"
+const DEFAULT_OBJPOS = [30, 200]
 
 export default function HomePage({navigate, ColorPickerDraggable, setColorPickerDraggable}: HomePageProps) {
     const [ws, setWs] = useState<WSServiceType>();
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [currentColor, setCurrentColor] = useState<string>("#000000");
-    const [scale] = useState<number>(10);
+    const [currentColor, setCurrentColor] = useState<string>(DEFAULT_COLOR);
     const [consoleValue, setConsoleValue] = useState<number[]>([]);
     const [consoleTextValue, setConsoleTextValue] = useState<string>("")
     let cursorPos: number[] = [];
-    const [objPos, setObjPos] = useState<number[]>([30, 200]);
+    const [objPos, setObjPos] = useState<number[]>(DEFAULT_OBJPOS);
     let ObjectPosition: number[] = [];
     const [draggable, setDraggable] = useState<boolean>(true);
-    const [cooldown, setCooldown] = useState<number>(15);
-    const defaultCooldown: number = 15;
+    const [cooldown, setCooldown] = useState<number>(DEFAULT_COOLDOWN);
     const drawRequest = (ctx: CanvasRenderingContext2D, pixelX: number, pixelY: number) => {
         if (cooldown > 0 && userData.role == Role.USER) {
             return;
         }
-        setCooldown(defaultCooldown);
-        const pixelSize = scale;
+        setCooldown(DEFAULT_COOLDOWN);
+        const pixelSize = SCALE;
         ctx.fillStyle = currentColor;
         ctx.fillRect(pixelX * pixelSize, pixelY * pixelSize, pixelSize, pixelSize);
         canvasRef.current != null && ws && ws.updateCanvas({
@@ -65,10 +67,12 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
 
 
     useEffect(() => {
-        getCurrentCooldown();
-        setWs(WSService());
-        getUser();
-    }, []);
+            getCurrentCooldown();
+            setWs(WSService());
+            getUser();
+        }, /* eslint-disable */
+        []);
+    /* eslint-enable */
 
     const handleNewPos = () => {
         if (!ColorPickerDraggable) return;
@@ -147,8 +151,8 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
         const x = (event.clientX - rect.left) * scaleX;
         const y = (event.clientY - rect.top) * scaleY;
 
-        const pixelX = Math.floor(x / scale);
-        const pixelY = Math.floor(y / scale);
+        const pixelX = Math.floor(x / SCALE);
+        const pixelY = Math.floor(y / SCALE);
 
         setConsoleValue([pixelX, pixelY]);
 

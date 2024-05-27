@@ -5,6 +5,7 @@ import axios, {AxiosResponse} from "axios";
 import {jwtResponseType, UserDataType} from "../models/model.tsx";
 import {useNavigate} from "react-router-dom";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export enum Role {
     ADMIN = "ADMIN",
     USER = "USER",
@@ -51,8 +52,10 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
     })
 
     useEffect(() => {
-        handleGetUser();
-    }, []);
+            handleGetUser();
+        }, /* eslint-disable */
+        []);
+    /* eslint-enable */
 
     const handleGetUser = () => {
         axios.get("/user/getuser", {
@@ -151,7 +154,7 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
                               onChange={(e) => {
                                   handleChange(e.target.name, e.target.value, e)
                               }}/>
-                    <input disabled={true} id={"placedpixel-display"}
+                    <input disabled={true} id={"placed-pixel-display"}
                            value={"placed Pixels: " + userdata.placedPixels}/>
                     <button id={"save-changes"} type={"submit"}>Save Changes</button>
                 </form>

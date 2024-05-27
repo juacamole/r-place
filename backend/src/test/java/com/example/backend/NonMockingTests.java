@@ -16,8 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Map;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,12 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class Tests {
+class NonMockingTests {
 
     private static final String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzE2MjkxNDEzLCJleHAiOjE3MTY5MTY1ODZ9.XACEM9zVK5pgd53wbPaWe1n_uBt7u3m0zJT7uPW73MM";
-
-    @Mock
-    private UserRepository urepo;
 
     @Mock
     private JWTService jwtService;
@@ -46,7 +41,6 @@ class Tests {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        when(jwtService.generateToken(any(Map.class), any(UserDetails.class))).thenReturn("test");
         when(jwtService.generateToken(any(UserDetails.class))).thenReturn("test");
     }
 
@@ -63,6 +57,7 @@ class Tests {
     }
 
     @Test
+    @SuppressWarnings("SpellCheckingInspection")
     public void testCheckTokenExpired() throws Exception {
         mockMvc.perform(get("/place/checktokenexpired")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -87,16 +82,4 @@ class Tests {
                 .andExpect(MockMvcResultMatchers.content().string("0"));
     }
 
-    /*@Test
-    void authenticateUserThatAlreadyExists_shouldReturnValidToken_whenUserWithNameEmailAndPassword_Test_Exists() throws Exception {
-        AuthenticationRequest request = new AuthenticationRequest("test", "test", "test");
-
-        String expectedResponse = objectMapper.writeValueAsString(Map.of("token", "test"));
-
-        mockMvc.perform(post("/place/authenticate")
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(expectedResponse));
-    }*/
 }

@@ -87,7 +87,7 @@
         overflow: hidden;
     }
 
-    #placedpixel-display {
+    #placed-pixel-display {
         position: fixed;
         background-color: white;
         color: black;

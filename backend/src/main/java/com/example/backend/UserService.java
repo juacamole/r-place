@@ -27,7 +27,9 @@ public class UserService {
     @Transactional
     public AuthenticationResponse updateUser(UserData user) {
         Optional<List<UserData>> foundUsers = repo.findAllByUsername(user.getUsername());
-        for (UserData u : foundUsers.get()
+        if (foundUsers.isEmpty()) return null;
+        List<UserData> users = foundUsers.get();
+        for (UserData u : users
         ) {
             if (!u.getEmail().equals(user.getEmail())) throw new RuntimeException("NonUniqueUsernameException");
         }

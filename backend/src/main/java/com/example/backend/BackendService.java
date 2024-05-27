@@ -53,7 +53,7 @@ public class BackendService {
                     .token(jtwToken)
                     .build();
         } catch (Exception e) {
-            System.out.println("an error occured: " + e.getMessage());
+            System.out.println("an error occurred: " + e.getMessage());
             return null;
         }
     }

@@ -34,6 +34,7 @@ public class BackendController {
         return service.checkEMailAdress(request);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     @GetMapping("/checktokenexpired")
     public boolean checkTokenExpired(@RequestHeader("Authorization") String authorizationHeader) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

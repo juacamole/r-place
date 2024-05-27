@@ -3,6 +3,7 @@ package com.example.backend;
 import com.example.backend.jwt.auth.AuthenticationRequest;
 import com.example.backend.jwt.config.JWTService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -25,10 +27,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 class MockingTests {
 
-    private static final String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzE2MjkxNDEzLCJleHAiOjE3MTY5MTY1ODZ9.XACEM9zVK5pgd53wbPaWe1n_uBt7u3m0zJT7uPW73MM";
-
     @Mock
-    private UserRepository urepo;
+    private static UserRepository userRepo;
 
     @MockBean
     private JWTService jwtService;
@@ -39,10 +39,22 @@ class MockingTests {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @BeforeAll
+    public static void handleTestUser() {
+        Optional<UserData> u = userRepo.findByUsername("test");
+        if (u.isPresent()) return;
+        UserData newUser = (UserData.builder()
+                .id(0)
+                .username("test")
+                .password("test")
+                .email("test")
+                .build());
+        userRepo.save(newUser);
+    }
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        when(jwtService.generateToken(any(Map.class), any(UserDetails.class))).thenReturn("test");
         when(jwtService.generateToken(any(UserDetails.class))).thenReturn("test");
     }
 

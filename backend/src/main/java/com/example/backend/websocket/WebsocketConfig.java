@@ -30,11 +30,7 @@ public class WebsocketConfig implements WebSocketConfigurer {
         registry.addHandler(new WebSocketHandler(service, jwtService, userDetailsService, userService), "/ws")
                 .setAllowedOrigins("*");
     }
-
-    public WebSocketHandler myHandler() {
-        return new WebSocketHandler(service, jwtService, userDetailsService, userService);
-    }
-
+    
 }
 
 

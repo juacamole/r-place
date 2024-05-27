@@ -15,8 +15,10 @@ export default function RegisterPage2({setUserData, userData, navigate}: Registe
 
 
     useEffect(() => {
-        if (!userData.email) navigate("/register");
-    }, []);
+            if (!userData.email) navigate("/register");
+        }, /* eslint-disable */
+        []);
+    /* eslint-enable */
 
     const saveUserDataOnChange = (name: string, value: string) => {
         const newUserData = {
@@ -44,7 +46,7 @@ export default function RegisterPage2({setUserData, userData, navigate}: Registe
                 if (reason.type == HttpStatusCode.Forbidden) {
                     alert("username already taken")
                 }
-                alert("An error occured, try again later or try different credentials.")
+                alert("An error occurred, try again later or try different credentials.")
             });
             e.preventDefault();
         }}>
