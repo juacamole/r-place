@@ -51,7 +51,8 @@ export default function RegisterPage({setUserData, userData, navigate}: Register
     return <div className={"background"}>
         <img src={Logo} className={"logo"} alt={""}/>
         <div className={"register-tag"}>Register</div>
-        <form onSubmit={() => {
+        <form onSubmit={(e) => {
+            e.preventDefault();
             axios.post("/place/mailcheck", userData).then((e) => {
 
                     if (e.data) {
