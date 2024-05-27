@@ -1,8 +1,17 @@
-FROM openjdk:21
-LABEL authors="Juacamole"
+FROM ubuntu:latest
 
-ADD backend/target/backend-0.0.1-SNAPSHOT.jar app.jar
+WORKDIR /app
+
+LABEL authors="juacamole"
+
+COPY backend/target app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "-Dspring.profile.active=dev", "app.jar"]
+FROM ubuntu:latest
+
+WORKDIR /app
+
+COPY --from=0 /app/app.jar /app/
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
