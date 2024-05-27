@@ -3,7 +3,7 @@ name: "App bereitstellen"
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   frontend-bauen:

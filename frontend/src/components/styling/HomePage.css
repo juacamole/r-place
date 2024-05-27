@@ -85,7 +85,7 @@
     }
 
     canvas:hover {
-        cursor: url('../../assets/cursor-custom2.cur'), auto;
+        cursor: pointer;
     }
 
     #console {

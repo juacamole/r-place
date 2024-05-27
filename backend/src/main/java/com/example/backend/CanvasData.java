@@ -15,7 +15,8 @@ public class CanvasData {
     private int id;
 
     @Column(columnDefinition = "TEXT")
-    private String canvasData;
+    @SuppressWarnings("SpellCheckingInspection")
+    private String canvasData = "iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAIAAAADnC86AAAALklEQVR4nO3NAQ0AAAgDILV/5xvDzUEBOkldmJNVLBaLxWKxWCwWi8VisVj8NF6D6wNNapkOkAAAAABJRU5ErkJggg==";
 
     public CanvasData() {
     }
