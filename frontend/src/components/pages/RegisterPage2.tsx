@@ -1,4 +1,5 @@
 import Logo from "../../assets/coop place logo.png";
+import Green_Checkmark from "../../assets/green_fn.png";
 import axios, {AxiosResponse, HttpStatusCode} from "axios";
 import CircleDesign from "../design-components/CircleDesign.tsx";
 import {jwtResponseType, UserDataType} from "../models/model.tsx";
@@ -31,6 +32,8 @@ export default function RegisterPage2({setUserData, userData, navigate}: Registe
     return <>
         <img src={Logo} className={"logo"} alt={""}/>
         <div className={"register-tag"}>Register</div>
+        <input id={"email-input"} type={"email"} value={userData.email} disabled={true}/>
+        <img id={"green-checkmark"} src={Green_Checkmark} alt={""}/>
         <form onSubmit={(e) => {
             axios.post("/place/register",
                 userData).then((u: AxiosResponse<jwtResponseType>) => {

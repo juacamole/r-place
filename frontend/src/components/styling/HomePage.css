@@ -84,6 +84,10 @@
         border: 0.1vw solid black;
     }
 
+    canvas:hover {
+        cursor: url('../../assets/cursor-custom2.cur'), auto;
+    }
+
     #console {
         z-index: 2;
         position: fixed;
