@@ -22,7 +22,6 @@ jobs:
           npm config delete proxy
           npm config delete https-proxy 
           npm config set registry https://registry.npmjs.org/
-          npm config list -l
           rm -f .npmrc
           rm -f package-lock.json
           npm cache clean --force
@@ -53,7 +52,7 @@ jobs:
           cache: 'maven'
 
       - name: Mit Maven bauen
-        run: mvn -B package --file backend/pom.xml
+        run: mvn -B package --file backend/pom.xml -Dspring.profiles.active=dev
 
       - uses: actions/upload-artifact@v4
         with:
