@@ -30,6 +30,14 @@ public class UserController {
         } else return false;
     }
 
+    @PostMapping("/newpw")
+    public void newPw(@RequestBody String pw, @RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            service.newpw(pw, token);
+        }
+    }
+
     @PutMapping("/update")
     public AuthenticationResponse updateUser(@RequestBody UserData user) {
         return service.updateUser(user);

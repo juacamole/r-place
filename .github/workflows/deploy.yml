@@ -18,6 +18,7 @@ jobs:
       - name: Frontend bauen
         working-directory: frontend
         run: |
+          npm config delete registry
           npm install
           npm run build
 

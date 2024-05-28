@@ -106,4 +106,16 @@ public class UserService {
         }
         return cd;
     }
+
+    public void newpw(String pw, String token) {
+        String username = jwtService.extractUsername(token);
+        Optional<UserData> existingUserOpt = repo.findByUsername(username);
+        if (existingUserOpt.isPresent()) {
+            UserData existingUser = existingUserOpt.get();
+            existingUser.setPassword(pw);
+            repo.save(existingUser);
+        } else {
+            throw new RuntimeException("NoUserFoundToUpdatePasswordException");
+        }
+    }
 }

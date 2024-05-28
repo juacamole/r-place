@@ -39,6 +39,8 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
     const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
     const [updateStatus, setUpdateStatus] = useState<boolean>(true)
+    const [advancedChangePw, setAdvancedChangePw] = useState<boolean>(false)
+    const [newPw, setNewPw] = useState<string>("");
     const [userdata, setUserData] = useState<UserDataType>({
         "username": "",
         "password": "",
@@ -129,71 +131,184 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
         })
     }
 
-    return <>
-        <img src={Logo} className={"logo"} alt={""}/>
-        <div id={"setting-main-panel"}>
-            <div id={"setting-sub-panel"}>
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit()
-                }}>
-                    <input name={"username"} maxLength={16} id={"edit-username"}
-                           placeholder={"new username"}
-                           value={userdata.username}
-                           onChange={(e) => {
-                               handleChange(e.target.name, e.target.value, e)
-                           }}/>
-                    <input name={"email"} id={"email-display"} placeholder={"email"} type={"email"} disabled={true}
-                           value={userdata.email}
-                           onChange={(e) => {
-                               handleChange(e.target.name, e.target.value, e)
-                           }}/>
-                    <textarea maxLength={30} name={"biography"} id={"edit-biography"} data-limit-rows="true" cols={1}
-                              rows={2} placeholder={"edit biography"}
-                              defaultValue={userdata.biography}
-                              onChange={(e) => {
-                                  handleChange(e.target.name, e.target.value, e)
-                              }}/>
-                    <input disabled={true} id={"placed-pixel-display"}
-                           value={"placed Pixels: " + userdata.placedPixels}/>
-                    <button id={"save-changes"} type={"submit"}>Save Changes</button>
-                </form>
-                <button id={"back-button"} onClick={handleClick}>Back</button>
-                <div id={"cp-draggable-switch-parent"}>
-                    <label className={"switch"}>
-                        <input type={"checkbox"} checked={ColorPickerDraggable} onChange={() => {
-                            setUserData(prevState => ({
-                                ...prevState,
-                                "cpd": !ColorPickerDraggable
-                            }))
-                            setColorPickerDraggable(!ColorPickerDraggable);
-                        }}/>
-                        <span className={"slider round"}></span>
-                    </label>
-                    <span id={"cp-draggable-span"}>Color Picker Draggable</span>
+    const handlePasswordChange = (value: string) => {
+        setPassword(value);
+    }
+
+    const handleNewPassword = (value: string) => {
+        setNewPw(value);
+    }
+
+    const handleUpdateUserPw = () => {
+        axios.post("/user/testpw", password, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        }).then((res) => {
+
+            res.data && axios.post("/user/newpw", newPw, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                }
+            }).then(() => {
+                setAdvancedChangePw(false);
+            })
+        })
+    }
+
+    return (
+        <>
+            <img src={Logo} className="logo" alt=""/>
+            <div id="setting-main-panel">
+                <div id="setting-sub-panel">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }}
+                    >
+                        <input
+                            name="username"
+                            maxLength={16}
+                            id="edit-username"
+                            placeholder="new username"
+                            value={userdata.username}
+                            onChange={(e) => {
+                                handleChange(e.target.name, e.target.value, e);
+                            }}
+                        />
+                        <input
+                            name="email"
+                            id="email-display"
+                            placeholder="email"
+                            type="email"
+                            disabled={true}
+                            value={userdata.email}
+                            onChange={(e) => {
+                                handleChange(e.target.name, e.target.value, e);
+                            }}
+                        />
+                        <textarea
+                            maxLength={30}
+                            name="biography"
+                            id="edit-biography"
+                            data-limit-rows="true"
+                            cols={1}
+                            rows={2}
+                            placeholder="edit biography"
+                            defaultValue={userdata.biography}
+                            onChange={(e) => {
+                                handleChange(e.target.name, e.target.value, e);
+                            }}
+                        />
+                        <input
+                            disabled={true}
+                            id="placed-pixel-display"
+                            value={`placed Pixels: ${userdata.placedPixels}`}
+                        />
+                        <button id="save-changes" type="submit">
+                            Save Changes
+                        </button>
+                    </form>
+                    <button id="back-button" onClick={handleClick}>
+                        Back
+                    </button>
+                    <div id="cp-draggable-switch-parent">
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                checked={ColorPickerDraggable}
+                                onChange={() => {
+                                    setUserData((prevState) => ({
+                                        ...prevState,
+                                        cpd: !ColorPickerDraggable,
+                                    }));
+                                    setColorPickerDraggable(!ColorPickerDraggable);
+                                }}
+                            />
+                            <span className="slider round"></span>
+                        </label>
+                        <span id="cp-draggable-span">Color Picker Draggable</span>
+                    </div>
+                    {!updateStatus && <p id="error-message">Update Failed</p>}
+                    <button
+                        id="delete-user-button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleDeleteUser();
+                        }}
+                    >
+                        Delete user
+                    </button>
+                    <button
+                        id="change-pw-button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setAdvancedChangePw(true);
+                        }}
+                    >
+                        Change Password
+                    </button>
                 </div>
-                {!updateStatus && <p id={"error-message"}>Update Failed</p>}
-                <button id={"delete-user-button"} onClick={(e) => {
-                    e.preventDefault();
-                    handleDeleteUser();
-                }}>Delete user
-                </button>
             </div>
-        </div>
-        {advancedDel && <div id={"delete-confirm-panel"}>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                handleDeleteUserAccepted()
-            }}>
-                <input type={"password"} placeholder={"password"} onChange={(e) => {
-                    setPassword(e.target.value);
-                }}/>
-            </form>
-            <button onClick={() => {
-                setAdvancedDel(false)
-            }}>x
-            </button>
-        </div>}
-        <CircleDesign></CircleDesign>
-    </>
+            {advancedDel && (
+                <div id="delete-confirm-panel">
+                    <p>Enter password to delete your user</p>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleDeleteUserAccepted();
+                        }}
+                    >
+                        <input
+                            type="password"
+                            placeholder="password"
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                            }}
+                        />
+                        <button type="submit">Delete</button>
+                    </form>
+                    <button
+                        onClick={() => {
+                            setAdvancedDel(false);
+                        }}
+                    >
+                        x
+                    </button>
+                </div>
+            )}
+            {advancedChangePw && (
+                <div id="change-pw-panel">
+                    <button onClick={() => setAdvancedChangePw(false)}>X</button>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleUpdateUserPw();
+                        }}
+                    >
+                        <input
+                            type="password"
+                            placeholder="old password"
+                            required
+                            onChange={(e) => {
+                                handlePasswordChange(e.target.value);
+                            }}
+                        />
+                        <input
+                            type="password"
+                            placeholder="new password"
+                            required
+                            onChange={(e) => {
+                                e.preventDefault();
+                                handleNewPassword(e.target.value);
+                            }}
+                        />
+                        <button type="submit">Update Password</button>
+                    </form>
+                </div>
+            )}
+            <CircleDesign/>
+        </>
+    )
 }

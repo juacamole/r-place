@@ -62,11 +62,12 @@ export default function LoginPage({navigate}: LoginPageProps) {
                 alert("Wrong Credentials");
             });
         }}>
-            <input id={"login-email-input"} required={true} placeholder={"email"} name={"email"}
+            <input id={"login-email-input"} required={true} placeholder={"email"} value={loginData.email} name={"email"}
                    className={"email-input"} type={"email"} onChange={(e) => {
                 saveUserDataOnChange(e.target.name, e.target.value)
             }}/>
-            <input id={"login-username-input"} required={true} placeholder={"username"} name={"username"}
+            <input id={"login-username-input"} required={true} value={loginData.username} placeholder={"username"}
+                   name={"username"}
                    className={"username-input"} onChange={(e) => {
                 saveUserDataOnChange(e.target.name, e.target.value)
             }}/>
