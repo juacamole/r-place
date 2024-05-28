@@ -18,12 +18,14 @@ jobs:
       - name: Frontend bauen
         working-directory: frontend
         run: |
-          npm config get proxy
-          npm config get https-proxy
           npm config delete registry
-          npm config delete proxy 
+          npm config delete proxy
           npm config delete https-proxy 
           npm config set registry https://registry.npmjs.org/
+          npm config list -l
+          rm -f .npmrc
+          rm -f package-lock.json
+          npm cache clean --force
           npm install
           npm run build
 
