@@ -2,6 +2,8 @@
 FROM node:18 AS frontend-build
 WORKDIR /frontend
 COPY frontend/package*.json ./
+RUN npm install -g npm@latest
+RUN npm cache clean --force
 RUN npm install
 COPY frontend/ .
 RUN npm run build
