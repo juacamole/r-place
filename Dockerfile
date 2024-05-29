@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim AS build
+FROM openjdk:17-jre-slim
 
 WORKDIR /app
 
