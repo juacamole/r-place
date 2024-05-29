@@ -267,12 +267,12 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
                                 setPassword(e.target.value);
                             }}
                         />
-                        <button type="submit">Delete</button>
+                        <button className={"submit-button"} type="submit">Delete</button>
                     </form>
-                    <button
-                        onClick={() => {
-                            setAdvancedDel(false);
-                        }}
+                    <button className={"exit-button"}
+                            onClick={() => {
+                                setAdvancedDel(false);
+                            }}
                     >
                         x
                     </button>
@@ -280,31 +280,32 @@ export default function Settings({ColorPickerDraggable, setColorPickerDraggable}
             )}
             {advancedChangePw && (
                 <div id="change-pw-panel">
-                    <button onClick={() => setAdvancedChangePw(false)}>X</button>
+                    <button className={"exit-button"} onClick={() => setAdvancedChangePw(false)}>x</button>
+                    <p>Enter old and pew password</p>
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
                             handleUpdateUserPw();
                         }}
                     >
-                        <input
-                            type="password"
-                            placeholder="old password"
-                            required
-                            onChange={(e) => {
-                                handlePasswordChange(e.target.value);
-                            }}
+                        <input id={"old-password-input"}
+                               type="password"
+                               placeholder="old password"
+                               required
+                               onChange={(e) => {
+                                   handlePasswordChange(e.target.value);
+                               }}
                         />
-                        <input
-                            type="password"
-                            placeholder="new password"
-                            required
-                            onChange={(e) => {
-                                e.preventDefault();
-                                handleNewPassword(e.target.value);
-                            }}
+                        <input id={"new-password-input"}
+                               type="password"
+                               placeholder="new password"
+                               required
+                               onChange={(e) => {
+                                   e.preventDefault();
+                                   handleNewPassword(e.target.value);
+                               }}
                         />
-                        <button type="submit">Update Password</button>
+                        <button className={"submit-button"} type="submit">Update</button>
                     </form>
                 </div>
             )}

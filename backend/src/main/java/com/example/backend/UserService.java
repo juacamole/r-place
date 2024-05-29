@@ -112,7 +112,7 @@ public class UserService {
         Optional<UserData> existingUserOpt = repo.findByUsername(username);
         if (existingUserOpt.isPresent()) {
             UserData existingUser = existingUserOpt.get();
-            existingUser.setPassword(pw);
+            existingUser.setPassword(passwordEncoder.encode(pw));
             repo.save(existingUser);
         } else {
             throw new RuntimeException("NoUserFoundToUpdatePasswordException");

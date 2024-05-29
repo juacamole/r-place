@@ -1,268 +1,377 @@
-/*todo*/
-@media (min-width: 1025px) and (max-width: 2000px) and (max-height: 1200px) {
-    #setting-main-panel {
-        position: fixed;
-        z-index: 1;
-        top: 27vh;
-        left: 20vw;
-        height: 70vh;
-        width: 60vw;
-        background-color: #a9f4fc;
-        border: black solid 0.125vw;
-        border-radius: 1.5vw;
-        box-shadow: black 0.5vw 0.5vh 1vw;
-    }
+/*todo default*/
 
-    #save-changes {
-        position: fixed;
-        z-index: 4;
-        background-color: #0cf7c8;
-        border: black solid 0.125vw;
-        border-radius: 0.5vw;
-        bottom: 5vh;
-        right: 23vw;
-        width: 6vw;
-        height: 4vh;
-    }
+#setting-main-panel {
+    position: fixed;
+    z-index: 1;
+    top: 27vh;
+    left: 20vw;
+    height: 70vh;
+    width: 60vw;
+    background-color: #a9f4fc;
+    border: black solid 0.125vw;
+    border-radius: 1.5vw;
+    box-shadow: black 0.5vw 0.5vh 1vw;
+}
 
-    #save-changes:hover {
-        background-color: #06c7a0;
-    }
+#save-changes {
+    position: fixed;
+    z-index: 4;
+    background-color: #0cf7c8;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+    bottom: 5vh;
+    right: 23vw;
+    width: 6vw;
+    height: 4vh;
+}
 
-    #back-button {
-        position: fixed;
-        z-index: 4;
-        background-color: #6c31d4;
-        border: black solid 0.125vw;
-        border-radius: 0.5vw;
-        bottom: 5vh;
-        left: 23vw;
-        color: white;
-        width: 6vw;
-        height: 4vh;
-    }
+#save-changes:hover {
+    background-color: #06c7a0;
+}
 
-    #back-button:hover {
-        background-color: #4c2294;
-    }
+#back-button {
+    position: fixed;
+    z-index: 4;
+    background-color: #6c31d4;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+    bottom: 5vh;
+    left: 23vw;
+    color: white;
+    width: 6vw;
+    height: 4vh;
+}
 
-    #edit-username {
-        position: fixed;
-        z-index: 4;
-        width: 10vw;
-        height: 3vh;
-        left: 45vw;
-        top: 35vh;
-        text-align: center;
-        border: black solid 0.125vw;
-        border-radius: 0.5vw;
-    }
+#back-button:hover {
+    background-color: #4c2294;
+    transition: background-color 200ms;
+}
 
-    #email-display {
-        position: fixed;
-        background-color: white;
-        color: black;
-        opacity: 50%;
-        z-index: 4;
-        width: 10vw;
-        height: 3vh;
-        left: 45vw;
-        top: 30vh;
-        text-align: center;
-        border: black solid 0.125vw;
-        border-radius: 0.5vw;
-    }
+#edit-username {
+    position: fixed;
+    z-index: 4;
+    width: 10vw;
+    height: 3vh;
+    left: 45vw;
+    top: 35vh;
+    text-align: center;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+}
 
-    #edit-biography {
-        position: fixed;
-        z-index: 4;
-        width: 20vw;
-        height: 6vh;
-        left: 40vw;
-        top: 40vh;
-        text-align: center;
-        border: black solid 0.125vw;
-        border-radius: 0.5vw;
-        resize: none;
-        overflow: hidden;
-    }
+#edit-username:hover {
+    transition: background-color 200ms;
+    background-color: lightblue;
+}
 
-    #placed-pixel-display {
-        position: fixed;
-        background-color: white;
-        color: black;
-        opacity: 50%;
-        z-index: 4;
-        width: 10vw;
-        height: 3vh;
-        left: 45vw;
-        top: 48vh;
-        text-align: center;
-        border: black solid 0.125vw;
-        border-radius: 0.5vw;
-    }
+#email-display {
+    position: fixed;
+    background-color: white;
+    color: black;
+    opacity: 50%;
+    z-index: 4;
+    width: 10vw;
+    height: 3vh;
+    left: 45vw;
+    top: 30vh;
+    text-align: center;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+}
 
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
+#edit-biography {
+    position: fixed;
+    z-index: 4;
+    width: 20vw;
+    height: 6vh;
+    left: 40vw;
+    top: 40vh;
+    text-align: center;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+    resize: none;
+    overflow: hidden;
+}
 
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+#edit-biography:hover {
+    transition: background-color 200ms;
+    background-color: lightblue;
+}
 
-    .slider {
-        box-shadow: #242424 0.2vw 0.2vw 0.5vw;
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
+#placed-pixel-display {
+    position: fixed;
+    background-color: white;
+    color: black;
+    opacity: 50%;
+    z-index: 4;
+    width: 10vw;
+    height: 3vh;
+    left: 45vw;
+    top: 48vh;
+    text-align: center;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+}
 
-    .slider:before {
-        box-shadow: #242424 0.2vw 0.2vw 0.5vw;
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
 
-    input:checked + .slider {
-        background-color: #2196F3;
-    }
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 
-    input:focus + .slider {
-        box-shadow: #242424 0.2vw 0.2vw 0.5vw;
-    }
+.slider {
+    box-shadow: #242424 0.2vw 0.2vw 0.5vw;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
 
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
+.slider:before {
+    box-shadow: #242424 0.2vw 0.2vw 0.5vw;
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
 
-    .slider.round {
-        border-radius: 34px;
-    }
+input:checked + .slider {
+    background-color: #2196F3;
+}
 
-    .slider.round:before {
-        border-radius: 50%;
-    }
+input:focus + .slider {
+    box-shadow: #242424 0.2vw 0.2vw 0.5vw;
+}
 
-    .slider:hover {
-        background-color: #a6ccff;
-    }
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
 
-    #cp-draggable-switch-parent {
-        position: fixed;
-        z-index: 4;
-        width: 20vw;
-        height: 6vh;
-        left: 41vw;
-        top: 53vh;
-    }
+.slider.round {
+    border-radius: 34px;
+}
 
-    #cp-draggable-span {
-        color: black;
-        font-size: 2vh;
-        font-weight: bolder;
-        position: fixed;
-        left: 45vw;
-    }
+.slider.round:before {
+    border-radius: 50%;
+}
 
-    #setting-sub-panel {
-        background-color: #c4ffd4;
-        position: fixed;
-        z-index: 3;
-        width: 30vw;
-        height: 50vh;
-        box-shadow: black 0 1vh 2vw;
-        border: black solid 0.125vw;
-        border-radius: 2vw;
-        left: 35vw;
-        top: 28vh;
-    }
+.slider:hover {
+    background-color: #a6ccff;
+    transition: background-color 200ms;
+}
 
-    #delete-user-button {
-        position: fixed;
-        z-index: 4;
-        background-color: #fc0000;
-        border: black solid 0.125vw;
-        border-radius: 0.5vw;
-        bottom: 5vh;
-        left: 60vw;
-        color: white;
-        width: 6vw;
-        height: 4vh;
-    }
+#cp-draggable-switch-parent {
+    position: fixed;
+    z-index: 4;
+    width: 20vw;
+    height: 6vh;
+    left: 41vw;
+    top: 53vh;
+}
+
+#cp-draggable-span {
+    color: black;
+    font-size: 2vh;
+    font-weight: bolder;
+    position: fixed;
+    left: 45vw;
+}
+
+#setting-sub-panel {
+    background-color: #c4ffd4;
+    position: fixed;
+    z-index: 3;
+    width: 30vw;
+    height: 50vh;
+    box-shadow: black 0 1vh 2vw;
+    border: black solid 0.125vw;
+    border-radius: 2vw;
+    left: 35vw;
+    top: 28vh;
+}
+
+#delete-user-button {
+    position: fixed;
+    z-index: 4;
+    background-color: #fc0000;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+    bottom: 5vh;
+    left: 60vw;
+    color: white;
+    width: 6vw;
+    height: 4vh;
+}
 
 
-    #delete-user-button:hover {
-        background-color: #d96a6a;
-    }
+#delete-user-button:hover {
+    background-color: #d96a6a;
+    transition: background-color 200ms;
+}
 
-    #delete-confirm-panel {
-        z-index: 5;
-        background-color: lightblue;
-        border: black solid 0.125vw;
-        border-radius: 5vw;
-        box-shadow: black 0.2vw 0.2vw 0.5vw;
-        width: 30vw;
-        left: 2vw;
-        top: 30vh;
-        position: fixed;
-        height: 15vh;
-    }
+#delete-confirm-panel {
+    z-index: 5;
+    background-color: lightblue;
+    border: black solid 0.125vw;
+    border-radius: 5vw;
+    box-shadow: black 0.2vw 0.2vw 0.5vw;
+    width: 30vw;
+    left: 2vw;
+    top: 30vh;
+    position: fixed;
+    height: 15vh;
+}
 
-    #delete-confirm-panel button {
-        width: 2vw;
-        height: 2vw;
-        position: absolute;
-        background-color: red;
-        text-align: center;
-        top: 1.5vh;
-        right: 1.5vw;
-        border-radius: 50%;
-    }
+.exit-button {
+    width: 2vw;
+    height: 2vw;
+    position: absolute;
+    background-color: red;
+    text-align: center;
+    top: 1.5vh;
+    right: 1.5vw;
+    border-radius: 50%;
+}
 
-    #delete-confirm-panel button:hover {
-        background-color: #d96a6a;
-    }
+.exit-button:hover {
+    background-color: #d96a6a;
+    transition: background-color 200ms;
+}
 
-    #delete-confirm-panel input {
-        position: absolute;
-        top: 8vh;
-        left: 7.5vw;
-        height: 3vh;
-        width: 15vw;
-        font-weight: bolder;
-        border-radius: 1vw;
-        box-shadow: black 0.2vw 0.2vw 0.5vw;
-        text-align: center;
-    }
+#delete-confirm-panel input {
+    position: absolute;
+    top: 8vh;
+    left: 7.5vw;
+    height: 3vh;
+    width: 15vw;
+    font-weight: bolder;
+    border-radius: 1vw;
+    box-shadow: black 0.2vw 0.2vw 0.5vw;
+    text-align: center;
+}
 
-    #delete-confirm-panel p {
-        position: absolute;
-        text-align: center;
-        left: 4vw;
-        font-weight: bolder;
-        font-size: 1.3vw;
-        top: 2.5vh;
-    }
+#delete-confirm-panel input:focus {
+    transition: background-color 200ms;
+    background-color: lightblue;
+}
+
+#delete-confirm-panel input:hover {
+    transition: background-color 200ms;
+    background-color: lightblue;
+}
+
+#delete-confirm-panel p {
+    position: absolute;
+    text-align: center;
+    left: 4vw;
+    font-weight: bolder;
+    font-size: 1.3vw;
+    top: 2.5vh;
+}
+
+.submit-button {
+    height: 2vw;
+    width: 5vw;
+    border-radius: 10vw;
+    background-color: #a6ccff;
+    z-index: 5;
+    position: absolute;
+    top: 8vh;
+    left: 23.5vw;
+}
+
+#submit-button:hover {
+    background-color: #88acdb;
+    transition: background-color 200ms;
+}
+
+#change-pw-button {
+    position: fixed;
+    z-index: 4;
+    background-color: #4657f0;
+    border: black solid 0.125vw;
+    border-radius: 0.5vw;
+    bottom: 5vh;
+    left: 34vw;
+    color: white;
+    width: 8vw;
+    height: 4vh;
+}
+
+#change-pw-panel {
+    z-index: 5;
+    background-color: lightcyan;
+    border: black solid 0.125vw;
+    border-radius: 5vw;
+    box-shadow: black 0.2vw 0.2vw 0.5vw;
+    width: 30vw;
+    left: 2vw;
+    top: 50vh;
+    position: fixed;
+    height: 15vh;
+}
+
+#change-pw-panel input:focus {
+    transition: background-color 200ms;
+    background-color: lightblue;
+}
+
+#change-pw-panel input:hover {
+    transition: background-color 200ms;
+    background-color: lightblue;
+}
+
+#change-pw-panel p {
+    position: absolute;
+    text-align: center;
+    left: 4vw;
+    font-weight: bolder;
+    font-size: 1.3vw;
+    top: 2.5vh;
+}
+
+
+#old-password-input {
+    position: absolute;
+    top: 6vh;
+    left: 7.5vw;
+    height: 3vh;
+    width: 15vw;
+    font-weight: bolder;
+    border-radius: 1vw;
+    box-shadow: black 0.2vw 0.2vw 0.5vw;
+    text-align: center;
+}
+
+#new-password-input {
+    position: absolute;
+    top: 10vh;
+    left: 7.5vw;
+    height: 3vh;
+    width: 15vw;
+    font-weight: bolder;
+    border-radius: 1vw;
+    box-shadow: black 0.2vw 0.2vw 0.5vw;
+    text-align: center;
 }
 
 /*todo*/
