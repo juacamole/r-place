@@ -105,4 +105,5 @@ jobs:
     steps:
       - name: Render.com-Bereitstellung auslösen
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY }} #muss mit der URL des Render-Deployments übereinstimmen
+          curl -X POST ${{ secrets.RENDER_DEPLOY }}
+        # muss mit der URL des Render-Deployments übereinstimmen

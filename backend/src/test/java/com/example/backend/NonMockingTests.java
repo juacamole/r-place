@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class NonMockingTests {
 
-    private static final String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzE2MjkxNDEzLCJleHAiOjE3MTY5MTY1ODZ9.XACEM9zVK5pgd53wbPaWe1n_uBt7u3m0zJT7uPW73MM";
+    private static final String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzE2OTY3MjczLCJleHAiOjE3MTY5NjcyNzM5MX0.CH-RoqMpHZyjYDW-9IueHom5qs3h6PwnrFJLdOBMv9o";
 
     @MockBean
     private static UserRepository userRepo;
