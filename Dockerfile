@@ -1,5 +1,5 @@
 # Frontend Build
-FROM node:18 AS frontend-build
+FROM node:21 AS frontend-build
 
 WORKDIR /frontend
 
