@@ -13,14 +13,19 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '21'
 
       - name: Frontend bauen
         working-directory: frontend
         run: |
-          npm install -g npm@latest
+          npm config delete registry
+          npm config delete proxy
+          npm config delete https-proxy 
+          npm config set registry https://registry.npmjs.org/
+          rm -f .npmrc
+          rm -f package-lock.json
+          npm cache clean --force
           npm install
-          npm install @types/babel__core @types/babel__generator @types/babel__template @types/babel__traverse @types/estree @types/json-schema @types/node @types/prop-types @types/react @types/react-dom @types/semver
           npm run build
 
       - name: Debug frontend build directory
@@ -48,7 +53,7 @@ jobs:
       - name: JDK einrichten
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '21' # muss mit der Version in der pom.xml übereinstimmen
           distribution: 'temurin'
           cache: 'maven'
 
@@ -61,7 +66,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: app.jar
-          path: backend/target/app.jar
+          path: backend/target/app.jar # muss mit finalName in der pom.xml übereinstimmen
 
   zu-docker-hub-hochladen:
     runs-on: ubuntu-latest
@@ -80,14 +85,14 @@ jobs:
       - name: Bei DockerHub anmelden
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }} # muss mit dem Namen des Dockerhub-Kontos übereinstimmen
+          password: ${{ secrets.DOCKERHUB_PASSWORD }} # muss mit dem Passwort des Dockerhub-Kontos übereinstimmen
 
       - name: Bauen und hochladen
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_TAG }}
+          tags: ${{ secrets.DOCKERHUB_TAG }} # Beispiel: benutzer/projekt:latest
           context: .
 
   bereitstellen:
@@ -95,9 +100,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: zu-docker-hub-hochladen
     environment:
-      name: Capstone-Projekt
-      url: https://neuefische.de/
+      name: Capstone-Projekt # Name des Capstone-Projekts
+      url: https://neuefische.de/ # Link zur Bereitstellung
     steps:
       - name: Render.com-Bereitstellung auslösen
         run: |
           curl -X POST ${{ secrets.RENDER_DEPLOY }}
+        # muss mit der URL des Render-Deployments übereinstimmen
