@@ -5,6 +5,7 @@ COPY frontend/package*.json ./
 RUN npm install -g npm@latest
 RUN npm install
 COPY frontend/ .
+RUN npm install @types/babel__core @types/babel__generator @types/babel__template @types/babel__traverse @types/estree @types/json-schema @types/node @types/prop-types @types/react @types/react-dom @types/semver
 RUN npm run build
 
 # Build-Stage für das Backend

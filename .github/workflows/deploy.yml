@@ -20,6 +20,7 @@ jobs:
         run: |
           npm install -g npm@latest
           npm install
+          npm install @types/babel__core @types/babel__generator @types/babel__template @types/babel__traverse @types/estree @types/json-schema @types/node @types/prop-types @types/react @types/react-dom @types/semver
           npm run build
 
       - name: Debug frontend build directory
