@@ -6,8 +6,6 @@ LABEL authors="juacamole"
 
 COPY backend/target app.jar
 
-ENV SPRING_PROFILES_ACTIVE=dev
-
 EXPOSE 8080
 
 FROM eclipse-temurin:21
