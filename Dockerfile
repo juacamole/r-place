@@ -1,18 +1,4 @@
-# Frontend Build
-FROM node:21 AS frontend-build
-
-WORKDIR /frontend
-
-COPY frontend/package*.json ./
-
-RUN npm install
-
-COPY frontend/ .
-
-RUN npm run build
-
-# Backend Build
-FROM openjdk:17-slim AS backend-build
+FROM openjdk:21
 
 WORKDIR /app
 
