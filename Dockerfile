@@ -1,17 +1,23 @@
-FROM eclipse-temurin:21
+# Frontend Build
+FROM node:18 AS frontend-build
+
+WORKDIR /frontend
+
+COPY frontend/package*.json ./
+
+RUN npm install
+
+COPY frontend/ .
+
+RUN npm run build
+
+# Backend Build
+FROM openjdk:17-slim AS backend-build
 
 WORKDIR /app
 
-LABEL authors="juacamole"
-
-COPY backend/target app.jar
+COPY backend/target/app.jar .
 
 EXPOSE 8080
-
-FROM eclipse-temurin:21
-
-WORKDIR /app
-
-COPY --from=0 /app/app.jar /app/
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
