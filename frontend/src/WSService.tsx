@@ -8,7 +8,7 @@ export type WSServiceType = {
 
 export function WSService(): WSServiceType {
 
-    const ws = new WebSocket(`ws://r-place-xvtv.onrender.com/ws`);
+    const ws = new WebSocket(`wss://r-place-xvtv.onrender.com/ws`);
 
     const queue: string[] = [];
     const listenerQueue: ((message: MessageEvent) => void)[] = [];
