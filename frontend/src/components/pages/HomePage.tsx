@@ -67,6 +67,9 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
 
 
     useEffect(() => {
+            if (localStorage.getItem("color")) {
+                setCurrentColor(localStorage.getItem("color") + "")
+            }
             getCurrentCooldown();
             setWs(WSService());
             getUser();
@@ -220,9 +223,13 @@ export default function HomePage({navigate, ColorPickerDraggable, setColorPicker
                 setDraggable(!draggable)
             }}>
                 <input
+                    value={localStorage.getItem("color") + ""}
                     id="color-picker"
                     type="color"
-                    onChange={(e) => setCurrentColor(e.target.value)}
+                    onChange={(e) => {
+                        setCurrentColor(e.target.value)
+                        localStorage.setItem("color", e.target.value)
+                    }}
                 />
 
 
