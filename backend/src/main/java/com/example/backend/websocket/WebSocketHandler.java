@@ -55,6 +55,7 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
                     } else {
                         long cooldownInMiliseconds = 14000;
                         if (userService.getCooldownByUser(decodedMessage.getToken()) + cooldownInMiliseconds <= System.currentTimeMillis()) {
+                            System.out.println("Saving Canvas in DB");
                             CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
                             service.addPixel(decodedMessage.getToken());
                             userService.refreshCooldown(decodedMessage.getToken());
