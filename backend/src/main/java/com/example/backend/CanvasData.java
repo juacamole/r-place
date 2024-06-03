@@ -26,4 +26,9 @@ public class CanvasData {
     public CanvasData(String canvasData) {
         this.canvasData = canvasData;
     }
+
+    public CanvasData(int id, String canvasData) {
+        this.id = id;
+        this.canvasData = canvasData;
+    }
 }
