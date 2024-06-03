@@ -15,6 +15,11 @@ public class BackendController {
 
     private final BackendService service;
 
+    @PostMapping("/boot")
+    public void addCanvas() {
+        service.addCanvas();
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
