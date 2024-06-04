@@ -32,6 +32,7 @@ public class BackendService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (userRepo.findByUsername(request.getUsername()).isPresent()) return null;
         try {
             var user = UserData.builder()
                     .username(request.getUsername())
