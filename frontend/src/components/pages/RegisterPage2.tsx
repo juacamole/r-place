@@ -15,7 +15,7 @@ type RegisterPage2Props = {
 }
 
 export default function RegisterPage2({setUserData, userData, navigate}: RegisterPage2Props) {
-    const [usernameStatus, setUsernameStatus] = useState<boolean>()
+    const [usernameStatus, setUsernameStatus] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export default function RegisterPage2({setUserData, userData, navigate}: Registe
         <input id={"email-input"} type={"email"} value={userData.email} disabled={true}/>
         <img id={"green-checkmark"} src={Green_Checkmark} alt={""}/>
         <form onSubmit={(e) => {
-            if (usernameStatus) {
+            if (!usernameStatus) {
                 axios.post("/place/register",
                     userData).then((u: AxiosResponse<jwtResponseType>) => {
                     if (!u.data.token) {
