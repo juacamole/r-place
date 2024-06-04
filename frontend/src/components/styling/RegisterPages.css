@@ -192,6 +192,23 @@
         left: 56.3vw;
     }
 
+    #username-green-checkmark {
+        z-index: 3;
+        position: fixed;
+        width: 2vw;
+        height: 2vw;
+        top: 25.25vw;
+        left: 57.3vw;
+    }
+
+    #username-red-x {
+        z-index: 3;
+        position: fixed;
+        width: 2vw;
+        height: 2vw;
+        top: 25.25vw;
+        left: 57.3vw;
+    }
 }
 
 /*todo*/

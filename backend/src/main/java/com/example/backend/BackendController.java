@@ -39,6 +39,11 @@ public class BackendController {
         return service.checkEMailAdress(request);
     }
 
+    @PostMapping("/usernamecheck")
+    public boolean checkUsername(@RequestBody AuthenticationRequest req) {
+        return service.checkUsername(req);
+    }
+
     @SuppressWarnings("SpellCheckingInspection")
     @GetMapping("/checktokenexpired")
     public boolean checkTokenExpired(@RequestHeader("Authorization") String authorizationHeader) {

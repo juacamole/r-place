@@ -92,4 +92,8 @@ public class BackendService {
         canvasRepo.save(new CanvasData(1, "iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAIAAAADnC86AAAALklEQVR4nO3NAQ0AAAgDILV/5xvDzUEBOkldmJNVLBaLxWKxWCwWi8VisVj8NF6D6wNNapkOkAAAAABJRU5ErkJggg=="));
         System.out.println("overwriting current canvas");
     }
+
+    public boolean checkUsername(AuthenticationRequest req) {
+        return userRepo.findByUsername(req.getUsername()).isPresent();
+    }
 }
