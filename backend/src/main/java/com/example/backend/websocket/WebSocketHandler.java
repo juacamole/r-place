@@ -12,7 +12,11 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -55,11 +59,28 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
                     } else {
                         long cooldownInMiliseconds = 14000;
                         if (userService.getCooldownByUser(decodedMessage.getToken()) + cooldownInMiliseconds <= System.currentTimeMillis()) {
-                            System.out.println("Saving Canvas in DB");
-                            CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
-                            service.addPixel(decodedMessage.getToken());
-                            userService.refreshCooldown(decodedMessage.getToken());
-                            sendCanvasToAll(newestCanvas);
+
+                            try {
+                                byte[] imageBytes = Base64.getDecoder().decode(decodedMessage.getCanvas());
+                                ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+                                BufferedImage image = ImageIO.read(bis);
+                                bis.close();
+                                int width = image.getWidth();
+                                int height = image.getHeight();
+
+                                if (width == 40 && height == 40) {
+                                    System.out.println("Saving Canvas in DB");
+                                    CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
+                                    service.addPixel(decodedMessage.getToken());
+                                    userService.refreshCooldown(decodedMessage.getToken());
+                                    sendCanvasToAll(newestCanvas);
+                                } else {
+                                    System.out.println("Input Image does not meet criteria");
+                                    sendCanvasToAll(service.getCanvas());
+                                }
+                            } catch (Error error) {
+                                System.out.println(error.getMessage());
+                            }
                         } else {
                             sendCanvasToAll(service.getCanvas());
                         }
