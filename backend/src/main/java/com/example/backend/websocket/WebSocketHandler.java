@@ -37,6 +37,34 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
         this.userService = userService;
     }
 
+    private static BufferedImage decodeToImage(String base64Image) throws Exception {
+        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+        return ImageIO.read(bis);
+    }
+
+    private static int compareImages(BufferedImage img1, BufferedImage img2) {
+        if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight()) {
+            throw new IllegalArgumentException("Bilder müssen die gleiche Größe haben");
+        }
+
+        int width = img1.getWidth();
+        int height = img1.getHeight();
+        int differingPixels = 0;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int pixel1 = img1.getRGB(x, y);
+                int pixel2 = img2.getRGB(x, y);
+                if (pixel1 != pixel2) {
+                    differingPixels++;
+                }
+            }
+        }
+
+        return differingPixels;
+    }
+
     @Override
     public void afterConnectionEstablished(@NonNull WebSocketSession session) {
         sessions.add(session);
@@ -69,11 +97,29 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
                                 int height = image.getHeight();
                                 System.out.println("width: " + width + " height: " + height);
                                 if (width == 400 && height == 400) {
-                                    System.out.println("Saving Canvas in DB");
-                                    CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
-                                    service.addPixel(decodedMessage.getToken());
-                                    userService.refreshCooldown(decodedMessage.getToken());
-                                    sendCanvasToAll(newestCanvas);
+
+                                    try {
+                                        BufferedImage image1 = decodeToImage(service.getCanvas().getCanvasData());
+                                        BufferedImage image2 = decodeToImage(decodedMessage.getCanvas().substring(22));
+
+                                        int differingPixels = compareImages(image1, image2);
+
+                                        if (differingPixels <= 100) {
+                                            System.out.println("Saving Canvas in DB");
+                                            CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
+                                            service.addPixel(decodedMessage.getToken());
+                                            userService.refreshCooldown(decodedMessage.getToken());
+                                            sendCanvasToAll(newestCanvas);
+                                        } else {
+                                            System.out.println("Input Image has more changes than allowed");
+                                            sendCanvasToAll(service.getCanvas());
+                                        }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+
                                 } else {
                                     System.out.println("Input Image does not meet criteria");
                                     sendCanvasToAll(service.getCanvas());
