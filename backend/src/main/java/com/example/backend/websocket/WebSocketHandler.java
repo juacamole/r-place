@@ -68,7 +68,7 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
                                 int width = image.getWidth();
                                 int height = image.getHeight();
                                 System.out.println("width: " + width + " height: " + height);
-                                if (width == 40 && height == 40) {
+                                if (width == 400 && height == 400) {
                                     System.out.println("Saving Canvas in DB");
                                     CanvasData newestCanvas = service.updateCanvas(new CanvasData(decodedMessage.getCanvas()));
                                     service.addPixel(decodedMessage.getToken());
