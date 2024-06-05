@@ -99,7 +99,8 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
                                 if (width == 400 && height == 400) {
 
                                     try {
-                                        BufferedImage image1 = decodeToImage(service.getCanvas().getCanvasData());
+                                        System.out.println(service.getCanvas().getCanvasData());
+                                        BufferedImage image1 = decodeToImage(service.getCanvas().getCanvasData().substring(22));
                                         BufferedImage image2 = decodeToImage(decodedMessage.getCanvas().substring(22));
 
                                         int differingPixels = compareImages(image1, image2);
