@@ -16,8 +16,8 @@ public class BackendController {
     private final BackendService service;
 
     @PostMapping("/boot")
-    public void addCanvas() {
-        service.addCanvas();
+    public void addCanvas(@RequestBody CanvasData canvasData) {
+        service.addCanvas(canvasData);
     }
 
     @PostMapping("/register")
