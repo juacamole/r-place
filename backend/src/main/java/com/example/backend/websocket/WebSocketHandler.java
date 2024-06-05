@@ -30,8 +30,6 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
     private final UserDetailsService userDetailsService;
     private final UserService userService;
 
-    private final Object sendLock = new Object();  // Add this line to the class
-
     public WebSocketHandler(BackendService service, JWTService jwtService, UserDetailsService userDetailsService, UserService userService) {
         this.service = service;
         this.jwtService = jwtService;
@@ -155,15 +153,11 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
 
     public void sendCanvasToAll(CanvasData canvas) {
         TextMessage textMessage = new TextMessage(canvas.getCanvasData());
-        synchronized (sendLock) {
-            for (WebSocketSession session : sessions) {
-                if (session.isOpen()) {
-                    try {
-                        session.sendMessage(textMessage);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
+        for (WebSocketSession session : sessions) {
+            try {
+                session.sendMessage(textMessage);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
