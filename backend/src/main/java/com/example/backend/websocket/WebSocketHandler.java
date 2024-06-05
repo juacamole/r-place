@@ -61,8 +61,7 @@ public class WebSocketHandler implements org.springframework.web.socket.WebSocke
                         if (userService.getCooldownByUser(decodedMessage.getToken()) + cooldownInMiliseconds <= System.currentTimeMillis()) {
 
                             try {
-                                System.out.println(decodedMessage.getCanvas());
-                                byte[] imageBytes = Base64.getDecoder().decode(decodedMessage.getCanvas());
+                                byte[] imageBytes = Base64.getDecoder().decode(decodedMessage.getCanvas().substring(22));
                                 ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
                                 BufferedImage image = ImageIO.read(bis);
                                 bis.close();
