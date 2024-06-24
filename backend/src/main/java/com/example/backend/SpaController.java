@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class SpaController {
 
-    @GetMapping("/home")
+    @GetMapping("*")
     public RedirectView redirectToHtml() {
         return new RedirectView("/index.html");
     }

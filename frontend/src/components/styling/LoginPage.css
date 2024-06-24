@@ -91,11 +91,42 @@
     }
 
     #switch-to-register-button-hitbox {
+        position: fixed;
         z-index: 4;
         cursor: pointer;
+        width: 5vw;
+        height: 5vw;
+        transform: rotate(45deg);
+        top: 4vh;
+        left: 2vw;
+    }
+
+    #switch-to-register-button {
+        border: black outset 0.125vw;
+        box-shadow: black 0.2vw 0.2vw 2vw;
+        position: fixed;
+        z-index: 2;
+        top: 4vh;
+        left: 2vw;
         transform: rotate(45deg);
         width: 5vw;
         height: 5vw;
+        background-color: #a6ccff;
+    }
+
+    #switch-to-register-button-hitbox:hover {
+        transition: background-color 200ms;
+        background-color: rgba(147, 182, 230, 50%);
+    }
+
+
+    #switch-to-register-button-tag {
+        position: fixed;
+        z-index: 2;
+        top: 7vh;
+        left: 3.1vw;
+        color: black;
+        font-weight: bolder;
     }
 }
 
