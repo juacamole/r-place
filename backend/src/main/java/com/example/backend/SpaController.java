@@ -34,5 +34,15 @@ public class SpaController {
         return new RedirectView("/index.html");
     }
 
+    @GetMapping("/403")
+    public RedirectView redirectFrom403() {
+        return new RedirectView("/index.html");
+    }
+
+    @GetMapping("/404")
+    public RedirectView redirectFrom404() {
+        return new RedirectView("/index.html");
+    }
+
 
 }
