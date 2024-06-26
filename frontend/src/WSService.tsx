@@ -15,6 +15,7 @@ export function WSService(): WSServiceType {
 
 
     ws.addEventListener("message", (m) => {
+        console.error()
         listenerQueue.forEach(listener => listener(m));
     });
 
